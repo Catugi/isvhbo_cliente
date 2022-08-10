@@ -40,15 +40,7 @@ export default function news_dataPage({ news_data }) {
 
         <Container sx={eventsBox}>
           {news_data.data.map((item) => (
-            <NewCard
-              key={item.id}
-              title={item.attributes.title}
-              body={item.attributes.body}
-              usefulLinks={item.attributes.usefulLinks}
-              createdAt={item.attributes.createdAt}
-              updatedAt={item.attributes.updatedAt}
-              author={'Fernando'}
-            />
+            <NewCard new_={item} />
           ))}
         </Container>
       </Box>

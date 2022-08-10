@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Link from './Link';
-import { AppBar, Avatar, Box, Button } from '@mui/material';
+import { AppBar, Avatar, Box, Button, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
 import avatar from 'public/assets/bg.jpg';
 import Image from 'next/image';
@@ -13,6 +13,8 @@ import {
 } from '@/utils/styles/headerStyles';
 import { styled } from '@mui/system';
 import { grey, red } from '@mui/material/colors';
+import { useContext } from 'react';
+import AuthContext from 'context/AuthContext';
 /* ========================================================== */
 
 const MyButton = styled(Button)({
@@ -33,10 +35,11 @@ const MyButton = styled(Button)({
 );
  */
 /* ============================================================ */
-const user = null;
 
 /* ============================================================= */
 const Header = () => {
+  const { user, logout } = useContext(AuthContext);
+
   const router = useRouter();
   const path = router.pathname;
 
@@ -69,9 +72,27 @@ const Header = () => {
           <MyButton LinkComponent={Link} href='/deseases'>
             Doenças
           </MyButton>
-          <MyButton LinkComponent={Link} href='/contacts'>
+          {/*  <MyButton LinkComponent={Link} href='/contacts'>
             Contactos
-          </MyButton>
+          </MyButton> */}
+        </Box>
+        <Box
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <TextField
+            required
+            fullWidth
+            name='search'
+            type='search'
+            id='search'
+            placeholder='Procurar'
+            sx={{
+              bgcolor: grey[400],
+            }}
+          />
         </Box>
         <Box>
           {user && user.isAdmin && (
@@ -88,13 +109,13 @@ const Header = () => {
                 <Avatar>
                   <Image
                     src={avatar.src}
-                    height={30}
-                    width={30}
+                    height={50}
+                    width={50}
                     alt={'Sem Imagem'}
                   />
                 </Avatar>
               </Link>
-              <MyButton LinkComponent={Link} href='/'>
+              <MyButton LinkComponent={Link} href='/' onClick={() => logout()}>
                 Sair
               </MyButton>
             </>
@@ -102,9 +123,6 @@ const Header = () => {
             <>
               <MyButton LinkComponent={Link} href='/auth/login'>
                 Entrar
-              </MyButton>
-              <MyButton LinkComponent={Link} href='/account/create'>
-                Criar Conta
               </MyButton>
             </>
           )}

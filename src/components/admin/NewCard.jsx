@@ -8,14 +8,7 @@ import { red } from '@mui/material/colors';
 import Image from 'next/image';
 import img from 'public/assets/the-devils-bridge.jpg';
 import Link from '../Link';
-const EventCard = ({
-  title,
-  body,
-  usefulLinks,
-  createdAt,
-  updatedAt,
-  author,
-}) => {
+const NewCard = ({ new_ }) => {
   return (
     <Card
       sx={{
@@ -41,11 +34,11 @@ const EventCard = ({
             justifyContent: 'center',
           }}
         >
-          <Typography variant='h4'>{title}</Typography>
+          <Typography variant='h4'>{new_.title}</Typography>
         </Box>
         <Box
           sx={{
-            width: 800,
+            width: 600,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -60,8 +53,8 @@ const EventCard = ({
               flexWrap: 'wrap',
             }}
           >
-            <Typography variant='body1'>{body}</Typography>
-            <Button LinkComponent={Link} href={usefulLinks}></Button>
+            <Typography variant='body1'>{new_.body}</Typography>
+            <Button LinkComponent={Link} href={new_.usefulLinks}></Button>
           </Box>
           <Box
             sx={{
@@ -70,9 +63,13 @@ const EventCard = ({
               flexDirection: 'column',
             }}
           >
-            <Typography variant='body1'>Publicado em: {createdAt}</Typography>
-            <Typography variant='body1'>Actualizado em: {updatedAt}</Typography>
-            <Typography variant='body1'>Por: {author}</Typography>
+            <Typography variant='body1'>
+              Publicado em: {new_.createdAt}
+            </Typography>
+            <Typography variant='body1'>
+              Actualizado em: {new_.updatedAt}
+            </Typography>
+            <Typography variant='body1'>Por: {new_.author}</Typography>
           </Box>
         </Box>
         <Box
@@ -107,4 +104,4 @@ const EventCard = ({
   );
 };
 
-export default EventCard;
+export default NewCard;

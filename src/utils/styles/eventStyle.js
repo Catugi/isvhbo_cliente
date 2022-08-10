@@ -4,8 +4,8 @@ import secondBgImage from 'public/assets/the-devils-bridge.jpg';
 export const eventsBox = {
   display: 'flex',
   flexWrap: 'wrap',
-  justifyContent: 'space-between',
-  alignItems: 'center',
+  justifyContent: 'space-around',
+  alignItems: 'flex-start',
 };
 
 export const mainBox = {

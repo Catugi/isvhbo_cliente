@@ -13,6 +13,7 @@ const ServicesPage = () => {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
+            gap: 2,
           }}
         >
           <Title>Serviços requisitados</Title>

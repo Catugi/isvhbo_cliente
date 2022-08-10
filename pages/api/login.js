@@ -1,9 +1,9 @@
-import cookie from 'cookie'
-import { API_URL } from '@/config/index'
+import { API_URL } from '@/config';
+import cookie from 'cookie';
 
 export default async (req, res) => {
   if (req.method === 'POST') {
-    const { identifier, password } = req.body
+    const { identifier, password } = req.body;
 
     const strapiRes = await fetch(`${API_URL}/auth/local`, {
       method: 'POST',
@@ -14,9 +14,9 @@ export default async (req, res) => {
         identifier,
         password,
       }),
-    })
+    });
 
-    const data = await strapiRes.json()
+    const data = await strapiRes.json();
 
     if (strapiRes.ok) {
       // Set Cookie
@@ -29,16 +29,16 @@ export default async (req, res) => {
           sameSite: 'strict',
           path: '/',
         })
-      )
+      );
 
-      res.status(200).json({ user: data.user })
+      res.status(200).json({ user: data.user });
     } else {
       res
         .status(data.statusCode)
-        .json({ message: data.message[0].messages[0].message })
+        .json({ message: data.message[0].messages[0].message });
     }
   } else {
-    res.setHeader('Allow', ['POST'])
-    res.status(405).json({ message: `Method ${req.method} not allowed` })
+    res.setHeader('Allow', ['POST']);
+    res.status(405).json({ message: `Method ${req.method} not allowed` });
   }
-}
+};
