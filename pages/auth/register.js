@@ -3,10 +3,8 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Layout from '@/components/Layout';
@@ -14,18 +12,25 @@ import { AccountBox } from '@mui/icons-material';
 import { useContext, useEffect, useState } from 'react';
 // ============================================
 import AuthContext from 'context/AuthContext';
+import Link from '@/components/Link';
+import { useRouter } from 'next/router';
 
 export default function RegisterPage() {
   /* const [firstName, setFirtName] = useState('');
   const [lastName, setLastName] = useState(''); */
+  const router = useRouter();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
-  const { register, error } = useContext(AuthContext);
+  const { register, error, user } = useContext(AuthContext);
 
-  // useEffect(() => error);
+  useEffect(() => {
+    error;
+  }, []);
+
+  user && router.push('/');
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -10,7 +10,9 @@ export const AuthProvider = ({ children }) => {
 
   const router = useRouter();
 
-  // useEffect(() => checkUserLoggedIn(), []);
+  useEffect(() => {
+    checkUserLoggedIn();
+  }, []);
 
   // Register user
   const register = async (user) => {
@@ -26,10 +28,13 @@ export const AuthProvider = ({ children }) => {
 
     if (res.ok) {
       setUser(data.user);
+      setError(null);
       router.push('/');
+      return;
     } else {
       setError(data.message);
-      setError(null);
+      setUser(null);
+      return;
     }
   };
 
@@ -50,10 +55,13 @@ export const AuthProvider = ({ children }) => {
 
     if (res.ok) {
       setUser(data.user);
+      setError(null);
       router.push('/');
+      return;
     } else {
       setError(data.message);
-      setError(null);
+      setUser(null);
+      return;
     }
   };
 
@@ -76,8 +84,10 @@ export const AuthProvider = ({ children }) => {
 
     if (res.ok) {
       setUser(data.user);
+      return;
     } else {
       setUser(null);
+      return;
     }
   };
 

@@ -14,15 +14,19 @@ import { LoginOutlined } from '@mui/icons-material';
 // =================================================7
 import AuthContext from 'context/AuthContext';
 import { useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 // =================================================
 
 export default function LoginPage() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { login, error } = useContext(AuthContext);
-  // useEffect(() => error);
-
+  const { login, error, user } = useContext(AuthContext);
+  useEffect(() => {
+    error;
+  }, []);
+  user && router.push('/');
   const handleSubmit = (e) => {
     e.preventDefault();
     login({ email, password });

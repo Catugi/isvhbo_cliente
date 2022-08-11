@@ -1,12 +1,16 @@
 import Head from 'next/head';
-import { Box } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import Footer from './ADMFooter';
 import Header from './Header';
 import SideBar from './SideBar';
+import { useContext } from 'react';
+import AuthContext from 'context/AuthContext';
+import Link from '../Link';
 
 const sx = {};
 
 const ADMLayout = ({ title, keywords, description, children }) => {
+  const { user } = useContext(AuthContext);
   return (
     <Box>
       <Head>
@@ -15,7 +19,7 @@ const ADMLayout = ({ title, keywords, description, children }) => {
         <meta name='keywords' content={keywords} />
       </Head>
       <Box sx={{ pt: 8, display: 'flex' }}>
-        <SideBar />
+        {user && user.isAdmin && <SideBar />}
         <Box
           sx={{
             display: 'flex',
@@ -24,7 +28,25 @@ const ADMLayout = ({ title, keywords, description, children }) => {
           }}
         >
           <Header />
-          <Box>{children}</Box>
+          {user && user.isAdmin ? (
+            <Box>{children}</Box>
+          ) : (
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              <Typography variant='h3'>
+                Você não é administrador Ou não está autenticado
+              </Typography>
+              <Button variant='outlined' LinkComponent={Link} href='/'>
+                Vá para página inicial
+              </Button>
+            </Box>
+          )}
         </Box>
       </Box>
 

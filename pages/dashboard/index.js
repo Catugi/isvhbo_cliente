@@ -2,10 +2,11 @@ import Layout from '@/components/Layout';
 import Link from '@/components/Link';
 import { mainBox } from '@/utils/styles/userDashboardStyles';
 import { Box, Button, Typography } from '@mui/material';
-
-const user = null;
+import AuthContext from 'context/AuthContext';
+import { useContext } from 'react';
 
 const UserDashboardPage = () => {
+  const { user } = useContext(AuthContext);
   return (
     <Layout>
       <Box sx={mainBox}>
@@ -15,7 +16,7 @@ const UserDashboardPage = () => {
             aligItems: 'center',
           }}
         >
-          {!user && (
+          {!user ? (
             <Typography variant='h3' align='center'>
               Ainda não tem uma conta? Cadastre-se para poder registar suas
               actividades. Ou Faça login
@@ -25,16 +26,19 @@ const UserDashboardPage = () => {
                 noLinkStyle
                 align='center'
                 sx={{
-                  fontSize: 32,
+                  fontSize: 24,
                 }}
               >
                 Aqui
               </Button>
             </Typography>
+          ) : (
+            <Box>
+              <Typography variant='h4' align='center'>
+                Ainda não tem registros de actividades
+              </Typography>
+            </Box>
           )}
-          <Typography variant='h4' align='center'>
-            Ainda não tem registros de actividades
-          </Typography>
         </Box>
       </Box>
     </Layout>
