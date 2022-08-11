@@ -15,6 +15,7 @@ import { styled } from '@mui/system';
 import { grey, red } from '@mui/material/colors';
 import { useContext } from 'react';
 import AuthContext from 'context/AuthContext';
+import { LoginOutlined } from '@mui/icons-material';
 /* ========================================================== */
 
 const MyButton = styled(Button)({
@@ -96,9 +97,18 @@ const Header = () => {
         </Box>
         <Box>
           {user && user.isAdmin && (
-            <MyButton LinkComponent={Link} href='/admin' noLinkStyle>
+            <Button
+              LinkComponent={Link}
+              href='/admin'
+              noLinkStyle
+              sx={{
+                bgcolor: grey[800],
+                color: grey[100],
+                ':hover': { bgcolor: grey[900], color: grey[200] },
+              }}
+            >
               Gerenciar
-            </MyButton>
+            </Button>
           )}
         </Box>
 
@@ -115,15 +125,34 @@ const Header = () => {
                   />
                 </Avatar>
               </Link>
-              <MyButton LinkComponent={Link} href='/' onClick={() => logout()}>
+              <Button
+                LinkComponent={Link}
+                href='/'
+                onClick={() => logout()}
+                sx={{
+                  bgcolor: grey[800],
+                  color: grey[100],
+                  ':hover': { bgcolor: grey[900], color: grey[200] },
+                }}
+              >
+                <LoginOutlined />
                 Sair
-              </MyButton>
+              </Button>
             </>
           ) : (
             <>
-              <MyButton LinkComponent={Link} href='/auth/login'>
+              <Button
+                LinkComponent={Link}
+                href='/auth/login'
+                sx={{
+                  bgcolor: grey[800],
+                  color: grey[100],
+                  ':hover': { bgcolor: grey[900], color: grey[200] },
+                }}
+              >
+                <LoginOutlined />
                 Entrar
-              </MyButton>
+              </Button>
             </>
           )}
         </Box>

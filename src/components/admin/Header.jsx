@@ -1,3 +1,4 @@
+import theme from '@/utils/theme';
 import { LogoutOutlined } from '@mui/icons-material';
 import {
   Box,
@@ -17,14 +18,14 @@ const Header = () => {
   const { user, logout } = useContext(AuthContext);
 
   return (
-    <ThemeProvider theme={mdTheme}>
+    <ThemeProvider theme={theme}>
       <AppBar
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
           flexDirection: 'row',
           alignItems: 'center',
-          height: mdTheme.spacing(6),
+          height: theme.spacing(6),
           px: 2,
         }}
       >

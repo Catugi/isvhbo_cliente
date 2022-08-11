@@ -6,12 +6,15 @@ import SideBar from './SideBar';
 import { useContext } from 'react';
 import AuthContext from 'context/AuthContext';
 import Link from '../Link';
+import { useRouter } from 'next/router';
+import Login from '../Login';
 
 const sx = {};
 
 const ADMLayout = ({ title, keywords, description, children }) => {
   const { user } = useContext(AuthContext);
-  return (
+  const router = useRouter();
+  return user ? (
     <Box>
       <Head>
         <title>{title}</title>
@@ -39,10 +42,15 @@ const ADMLayout = ({ title, keywords, description, children }) => {
                 alignItems: 'center',
               }}
             >
-              <Typography variant='h3'>
-                Você não é administrador Ou não está autenticado
+              <Typography variant='h3' align='center' sx={{ ml: 30 }}>
+                Permissões insuficientes para estar aqui
               </Typography>
-              <Button variant='outlined' LinkComponent={Link} href='/'>
+              <Button
+                variant='outlined'
+                LinkComponent={Link}
+                href='/'
+                sx={{ ml: 30 }}
+              >
                 Vá para página inicial
               </Button>
             </Box>
@@ -52,6 +60,8 @@ const ADMLayout = ({ title, keywords, description, children }) => {
 
       <Footer />
     </Box>
+  ) : (
+    <Login isAdminRoute={true} />
   );
 };
 ADMLayout.defaultProps = {

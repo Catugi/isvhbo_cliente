@@ -12,4 +12,5 @@ export const leftBox = {};
 export const centerBox = {};
 export const rightBox = {
   display: 'flex',
+  gap: 2,
 };
