@@ -15,6 +15,7 @@ import { LoginOutlined } from '@mui/icons-material';
 import AuthContext from 'context/AuthContext';
 import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { red } from '@mui/material/colors';
 // =================================================
 
 export default function LoginPage() {
@@ -45,9 +46,21 @@ export default function LoginPage() {
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LoginOutlined />
           </Avatar>
+
           <Typography component='h1' variant='h5'>
             Entrar
           </Typography>
+          {error && (
+            <Typography
+              sx={{
+                bgcolor: red[600],
+                color: red[100],
+                textAlign: 'center',
+              }}
+            >
+              {error.message}
+            </Typography>
+          )}
           <Box
             component='form'
             onSubmit={handleSubmit}

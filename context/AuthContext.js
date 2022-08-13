@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
       router.push('/');
       return;
     } else {
-      setError(data.message);
+      setError({ name: data.name, message: data.message });
       setUser(null);
       return;
     }
@@ -59,7 +59,7 @@ export const AuthProvider = ({ children }) => {
       router.push('/');
       return;
     } else {
-      setError(data.message);
+      setError({ name: data.name, message: 'Nome de usuário ou senha errado' });
       setUser(null);
       return;
     }
@@ -73,6 +73,7 @@ export const AuthProvider = ({ children }) => {
 
     if (res.ok) {
       setUser(null);
+      setError(null);
       router.push('/');
     }
   };

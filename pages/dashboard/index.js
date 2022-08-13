@@ -10,36 +10,36 @@ const UserDashboardPage = () => {
   return (
     <Layout>
       <Box sx={mainBox}>
-        <Box
-          sx={{
-            display: 'flex',
-            aligItems: 'center',
-          }}
-        >
-          {!user ? (
-            <Typography variant='h3' align='center'>
-              Ainda não tem uma conta? Cadastre-se para poder registar suas
-              actividades. Ou Faça login
-              <Button
-                href={'/auth/login'}
-                LinkComponent={Link}
-                noLinkStyle
-                align='center'
-                sx={{
-                  fontSize: 24,
-                }}
-              >
-                Aqui
-              </Button>
+        {!user ? (
+          <Typography variant='h4' align='center'>
+            Ainda não tem uma conta? Cadastre-se para poder registar suas
+            actividades. Ou Faça login
+            <Button
+              href={'/auth/login'}
+              LinkComponent={Link}
+              noLinkStyle
+              align='center'
+              sx={{
+                fontSize: 24,
+              }}
+            >
+              Aqui
+            </Button>
+          </Typography>
+        ) : (
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'flex-start',
+            }}
+          >
+            <Typography variant='h4' align='center'>
+              Ainda não tem registros de actividades
             </Typography>
-          ) : (
-            <Box>
-              <Typography variant='h4' align='center'>
-                Ainda não tem registros de actividades
-              </Typography>
-            </Box>
-          )}
-        </Box>
+          </Box>
+        )}
       </Box>
     </Layout>
   );

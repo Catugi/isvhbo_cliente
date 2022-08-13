@@ -14,6 +14,7 @@ import { useContext, useEffect, useState } from 'react';
 import AuthContext from 'context/AuthContext';
 import Link from '@/components/Link';
 import { useRouter } from 'next/router';
+import { grey, red } from '@mui/material/colors';
 
 export default function RegisterPage() {
   /* const [firstName, setFirtName] = useState('');
@@ -25,6 +26,10 @@ export default function RegisterPage() {
   const [passwordConfirm, setPasswordConfirm] = useState('');
 
   const { register, error, user } = useContext(AuthContext);
+  const message =
+    error && error.message.includes('Email')
+      ? 'Esse email já está em uso'
+      : 'Ocorreu um erro durante a craiação da conta. Certifique que informou um email válido e que a sua senha tem ao menos 6 caracteres';
 
   useEffect(() => {
     error;
@@ -52,12 +57,23 @@ export default function RegisterPage() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'primary' }}>
+          <Avatar sx={{ m: 1, bgcolor: grey[900] }}>
             <AccountBox />
           </Avatar>
           <Typography component='h1' variant='h5'>
             Criar uma conta
           </Typography>
+          {error && (
+            <Typography
+              sx={{
+                bgcolor: red[600],
+                color: red[100],
+                textAlign: 'center',
+              }}
+            >
+              {message}
+            </Typography>
+          )}
           <Box
             component='form'
             noValidate

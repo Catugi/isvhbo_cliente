@@ -94,7 +94,7 @@ export default function Login({ isAdminRoute }) {
                   <Typography variant='h5'>Não tem credenciais?</Typography>
                 </Grid>
                 <Grid>
-                  <Button LinkComponent={Link} href='/' variant='outlined'>
+                  <Button LinkComponent={Link} href='/'>
                     Visite o site
                   </Button>
                 </Grid>

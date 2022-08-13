@@ -15,7 +15,7 @@ import { styled } from '@mui/system';
 import { grey, red } from '@mui/material/colors';
 import { useContext } from 'react';
 import AuthContext from 'context/AuthContext';
-import { LoginOutlined } from '@mui/icons-material';
+import { LoginOutlined, LogoutOutlined } from '@mui/icons-material';
 /* ========================================================== */
 
 const MyButton = styled(Button)({
@@ -42,8 +42,6 @@ const Header = () => {
   const { user, logout } = useContext(AuthContext);
 
   const router = useRouter();
-  const path = router.pathname;
-
   return (
     <AppBar position='sticky' color='primary'>
       <Box component={'nav'} sx={mainBox}>
@@ -130,12 +128,12 @@ const Header = () => {
                 href='/'
                 onClick={() => logout()}
                 sx={{
-                  bgcolor: grey[800],
+                  bgcolor: red[800],
                   color: grey[100],
-                  ':hover': { bgcolor: grey[900], color: grey[200] },
+                  ':hover': { bgcolor: red[900], color: grey[200] },
                 }}
               >
-                <LoginOutlined />
+                <LogoutOutlined />
                 Sair
               </Button>
             </>

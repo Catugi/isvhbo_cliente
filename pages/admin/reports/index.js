@@ -1,7 +1,12 @@
-import ADMLayout from "@/components/admin/ADMLayout";
+import ADMLayout from '@/components/admin/ADMLayout';
+import Title from '@/components/admin/Title';
 
 const ReportsPage = () => {
-  return <ADMLayout>ReportsPage</ADMLayout>;
+  return (
+    <ADMLayout>
+      <Title textAlign='center'>Relatórios de actividades da instituição</Title>
+    </ADMLayout>
+  );
 };
 
 export default ReportsPage;
