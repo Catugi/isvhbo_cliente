@@ -10,27 +10,25 @@ import {
 } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
 import AuthContext from 'context/AuthContext';
+import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
-const NewEmployeePage = () => {
-  // const router = useRouter();
-
-  const [values, setValues] = useState({
-    fname: '', sname: '',
-    lname: '', address: '',
-    phone: '', bday: ''
-  })
+const AddEventPage = () => {
   const { error, user } = useContext(AuthContext);
-  const hasEmptyFields = Object.values(values).some(
-    (element) => element === ''
-  )
+  const router = useRouter();
+  const [values, setValues] = useState({
+    title: '', description: '',
+    usefulLinks: '', start_date: '',
+    start_time: '', end_date: '', end_time: ''
+  })
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
   };
   const handleClearForm = (e) => {
     setValues({
-      fname: '', sname: '',
+      title: '', description: '',
       lname: '', address: '',
       joinedAt: '', bday: ''
     });
@@ -39,7 +37,6 @@ const NewEmployeePage = () => {
     const { name, value } = e.target
     setValues({ ...values, [name]: value })
   }
-
   return (
     <ADMLayout>
       <Container component='main' maxWidth='md' sx={{ minHeight: 520, mb: 10 }}>
@@ -50,13 +47,9 @@ const NewEmployeePage = () => {
             alignItems: 'center',
           }}
         >
-          <Title>Cadastrando um novo Funcionário</Title>
-          <Button
-            variant='contained'
-            LinkComponent={Link}
-            href='/admin/proprietors'
-          >
-            Ver Todas
+          <Title>Cadastrando um novo Evento ...</Title>
+          <Button variant='contained' LinkComponent={Link} href='/admin/events'>
+            Ver Todos
           </Button>
         </Box>
         <Box
@@ -73,113 +66,119 @@ const NewEmployeePage = () => {
             onSubmit={handleSubmit}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                Primeiro Nome
+              <Grid item xs={12} >
+                Título
                 <TextField
-                  autoComplete='given-name'
-                  name='fname'
+                  name='title'
                   required
                   fullWidth
-                  id='fname'
-                  placeholder='Primeiro nome'
+                  id='title'
+                  placeholder='Título do evento'
                   autoFocus
-                  value={values.fname}
+                  value={values.title}
                   onChange={handleInputChange}
                 />
               </Grid>
-
-              <Grid item xs={12} sm={6}>
-                Último Nome
+              <Grid item xs={12}>
+                Descrição
+                <TextField
+                  multiline
+                  rows={5}
+                  required
+                  fullWidth
+                  id='description'
+                  placeholder='Descrição do evento'
+                  name='description'
+                  value={values.description}
+                  onChange={handleInputChange}
+                />
+              </Grid>
+              <Grid item xs={12} >
+                Ligações úteis
                 <TextField
                   required
                   fullWidth
-                  id='lname'
-                  placeholder='Último nome'
-                  name='lname'
-                  autoComplete='family-name'
-                  value={values.lname}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                Endereço
-                <TextField
-                  required
-                  fullWidth
-                  id='address'
-                  name='address'
-                  placeholder='Endereço'
-                  autoComplete='address'
-                  value={values.address}
+                  id='usefulLinks'
+                  placeholder='Links úteis'
+                  name='usefulLinks'
+                  value={values.usefulLinks}
                   onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                Telefone
-                <TextField
-                  required
-                  fullWidth
-                  id='phone'
-                  placeholder='Telefone'
-                  name='phone'
-                  value={values.phone}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                Data de Nascimento
+                Data de início
                 <TextField
                   type={'date'}
                   required
                   fullWidth
-                  name='bday'
-                  placeholder='Data de nascimento'
-                  id='bday'
-                  value={values.bday}
+                  id='start_date'
+
+                  name='start_date'
+                  value={values.start_date}
                   onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                Junto-se em
+                Data de término
                 <TextField
                   type={'date'}
                   required
                   fullWidth
-                  id='joinedAt'
-                  name='joinedAt'
-                  value={values.joinedAt}
+                  name='end_date'
+                  id='end_date'
+                  value={values.end_date}
                   onChange={handleInputChange}
                 />
               </Grid>
-
               <Grid item xs={12} sm={6}>
+                Hora de início
+                <TextField
+                  required
+                  type={'datetime-local'}
+                  fullWidth
+                  name='start_time'
+                  id='start_time'
+                  value={values.start_time}
+                  onChange={handleInputChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                Hora de término
+                <TextField
+                  required
+                  type={'datetime-local'}
+                  fullWidth
+                  name='end_time'
+                  id='end_time'
+                  value={values.end_time}
+                  onChange={handleInputChange}
+                />
+              </Grid>
+              <Grid item sx={12} sm={6}>
+
                 <Button
-                  fullWidth
                   type='submit'
+                  fullWidth
                   variant='contained'
                   sx={{ mt: 3, mb: 2 }}
                 >
                   Salvar
                 </Button>
               </Grid>
-
-              <Grid item xs={12} sm={6}>
+              <Grid item sx={12} sm={6}>
 
                 <Button
-                  fullWidth
                   type='submit'
+                  fullWidth
                   variant='contained'
                   sx={{
-                    mt: 3, mb: 2, bgcolor: red[800], color: grey[100], ":hover": {
-                      bgcolor: red[800], color: grey[100],
-                    }
+                    mt: 3, mb: 2, bgcolor: red[900], color: grey[100],
+                    ":hover": { bgcolor: red[800], color: grey[200] }
                   }} onClick={handleClearForm}
                 >
-                  Limpar formulário
+                  Limpa formulário
                 </Button>
               </Grid>
-
             </Grid>
           </Box>
         </Box>
@@ -187,4 +186,4 @@ const NewEmployeePage = () => {
     </ADMLayout>
   );
 };
-export default NewEmployeePage;
+export default AddEventPage;

@@ -10,62 +10,51 @@ import {
   TextField,
 } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
+import AuthContext from 'context/AuthContext';
+import { parseCookies } from 'helpers/index';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 
-const NewDesease = () => {
+export default function AddDesease({ token }) {
+  const { user, error } = useContext(AuthContext)
+  const [errorMessage, setErrorMessage] = useState("");;
   const router = useRouter();
+
+  const [detectedLocal, setDetectedLocal] = useState("");
+  const [description, setDescription] = useState("");
+  const [treatmentType, setTreatmentType] = useState("");
+  const [proprieties, setProprieties] = useState([])
   // ===================================================================
-  const [values, setValues] = useState({
-    detectedLocal: '',
-    description: '',
-    treatmentType: '',
-  })
 
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setValues({ ...values, [name]: value })
-  }
-
-  const handleClearForm = (e) => {
-    const { name, value } = e.target
-    setValues({ detectedLocal: '', description: '', treatmentType: '' })
+  const handleClearForm = () => {
+    setDetectedLocal('');
+    setDescription('');
+    setTreatmentType('');
+    setProprieties([]);
   }
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-
-    const hasEmptyFields = Object.values(values).some(
-      (element) => element === ''
-    )
-
-    if (hasEmptyFields) {
-    }
-
-    const res = await fetch(`${API_URL}/api/deseases`, {
+    const res = await fetch(`${API_URL}/deseases`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(values),
+      body: JSON.stringify({ detectedLocal, description, treatmentType, proprieties }),
     })
 
     if (!res.ok) {
       if (res.status === 403 || res.status === 401) {
+        setErrorMessage('Não está autorizado')
         return
       }
     } else {
-      const evt = await res.json()
-      router.push(`/events/${evt.slug}`)
+      router.push(`/admin/deseases`)
     }
   }
-
-
   // ===================================================================
-
-
   return (
     <ADMLayout>
       <Container component='main' maxWidth='md' sx={{ minHeight: 520, mb: 10 }}>
@@ -108,8 +97,8 @@ const NewDesease = () => {
                   id='detectedLocal'
                   placeholder='Local detectado'
                   autoFocus
-                  value={values.detectedLocal}
-                  onChange={handleInputChange}
+                  value={detectedLocal}
+                  onChange={(e) => setDetectedLocal(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} >
@@ -122,8 +111,8 @@ const NewDesease = () => {
                   id='description'
                   placeholder='Descrição'
                   name='description'
-                  value={values.description}
-                  onChange={handleInputChange}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -134,8 +123,8 @@ const NewDesease = () => {
                   id='treatmentType'
                   placeholder='Tipo de tratamento'
                   name='treatmentType'
-                  value={values.treatmentType}
-                  onChange={handleInputChange}
+                  value={treatmentType}
+                  onChange={(e) => setTreatmentType(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -170,4 +159,14 @@ const NewDesease = () => {
     </ADMLayout>
   );
 };
-export default NewDesease;
+
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req)
+
+  return {
+    props: {
+      token,
+    },
+  }
+}

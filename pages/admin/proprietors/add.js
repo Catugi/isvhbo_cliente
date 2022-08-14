@@ -12,7 +12,7 @@ import { grey, red } from '@mui/material/colors';
 import AuthContext from 'context/AuthContext';
 import { useContext, useState } from 'react';
 
-const NewProprietorPage = () => {
+const AddProprietorPage = () => {
   // const router = useRouter();
 
   const [values, setValues] = useState({
@@ -186,4 +186,4 @@ const NewProprietorPage = () => {
     </ADMLayout>
   );
 };
-export default NewProprietorPage;
+export default AddProprietorPage;

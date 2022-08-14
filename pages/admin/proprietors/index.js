@@ -34,7 +34,7 @@ export default function OwnersPage({ proprietors }) {
             variant='contained'
             LinkComponent={Link}
             noLinkStyle
-            href='/admin/proprietors/new'
+            href='/admin/proprietors/add'
           >
             Adicionar Novo Empresário
           </Button>

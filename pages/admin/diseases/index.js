@@ -20,7 +20,7 @@ export default function MostRelevantDiseases({ deseases }) {
           <Button
             variant='contained'
             LinkComponent={Link}
-            href='/admin/diseases/new'
+            href='/admin/diseases/add'
           >
             Detectada uma nova
           </Button>

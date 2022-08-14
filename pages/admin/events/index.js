@@ -26,7 +26,7 @@ export default function EventsPage({ events }) {
             variant='contained'
             LinkComponent={Link}
             noLinkStyle
-            href='/admin/events/new'
+            href='/admin/events/add'
           >
             Adicionar novo
           </Button>

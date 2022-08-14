@@ -1,7 +1,7 @@
 import ADMLayout from '@/components/admin/ADMLayout';
 import Title from '@/components/admin/Title';
 import Link from '@/components/Link';
-import NewCard from '@/components/admin/NewCard';
+import AddCard from '@/components/admin/AddCard';
 import { API_URL } from '@/config';
 import { eventsBox, mainBox } from '@/utils/styles/eventStyle';
 import { Box } from '@mui/material';
@@ -27,7 +27,7 @@ export default function news_dataPage({ news_data }) {
             variant='contained'
             LinkComponent={Link}
             noLinkStyle
-            href='/admin/news/new'
+            href='/admin/news/add'
           >
             Adicionar nova
           </Button>
@@ -40,7 +40,7 @@ export default function news_dataPage({ news_data }) {
 
         <Container sx={eventsBox}>
           {news_data.data.map((item) => (
-            <NewCard new_={item} />
+            <AddCard new_={item} />
           ))}
         </Container>
       </Box>

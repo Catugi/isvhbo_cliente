@@ -19,7 +19,7 @@ const Propriedades = ({ proprieties }) => {
         <Button
           variant='contained'
           LinkComponent={Link}
-          href='/admin/proprieties/new'
+          href='/admin/proprieties/add'
         >
           Cadastrar Nova
         </Button>

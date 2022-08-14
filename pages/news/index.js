@@ -5,7 +5,7 @@ import { Box, Button, Card, Container, Typography } from '@mui/material';
 import { API_URL } from '../../config';
 import Link from '@/components/Link';
 
-export default function NewsPage({ news }) {
+export default function AddsPage({ news }) {
   return (
     <Layout>
       <Typography textTransform={'uppercase'} variant='h3' align='center'>

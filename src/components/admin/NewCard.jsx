@@ -8,7 +8,7 @@ import { red } from '@mui/material/colors';
 import Image from 'next/image';
 import img from 'public/assets/the-devils-bridge.jpg';
 import Link from '../Link';
-const NewCard = ({ new_ }) => {
+const AddCard = ({ new_ }) => {
   return (
     <Card
       sx={{
@@ -95,4 +95,4 @@ const NewCard = ({ new_ }) => {
   );
 };
 
-export default NewCard;
+export default AddCard;

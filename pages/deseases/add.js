@@ -13,7 +13,7 @@ import AuthContext from 'context/AuthContext';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 
-const NewDesease = () => {
+const AddDesease = () => {
   const router = useRouter();
   const [detectedLocal, setdetectedLocal] = useState('');
   const [description, setDescription] = useState('');
@@ -53,8 +53,8 @@ const NewDesease = () => {
                   id='firstName'
                   label='Primeiro nome'
                   autoFocus
-                  /*  value={firstName}
-                  onChange={(e) => setFirtName(e.target.value)} */
+                /*  value={firstName}
+                onChange={(e) => setFirtName(e.target.value)} */
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -65,8 +65,8 @@ const NewDesease = () => {
                   label='Último nome'
                   name='lastName'
                   autoComplete='family-name'
-                  /* value={lastName}
-                  onChange={(e) => setLastName(e.target.value)} */
+                /* value={lastName}
+                onChange={(e) => setLastName(e.target.value)} */
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -134,4 +134,4 @@ const NewDesease = () => {
     </Layout>
   );
 };
-export default NewDesease;
+export default AddDesease;

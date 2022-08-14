@@ -1,7 +1,7 @@
 import Layout from "@/components/Layout";
 
-const NewsDetailsPage = () => {
-  return <Layout>NewsDetailsPage</Layout>;
+const AddsDetailsPage = () => {
+  return <Layout>AddsDetailsPage</Layout>;
 };
 
-export default NewsDetailsPage;
+export default AddsDetailsPage;

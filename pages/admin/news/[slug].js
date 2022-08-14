@@ -1,7 +1,7 @@
 import ADMLayout from "@/components/admin/ADMLayout";
 
-const NewsDetailPage = () => {
-  return <ADMLayout>NewsDetailPage</ADMLayout>;
+const AddsDetailPage = () => {
+  return <ADMLayout>AddsDetailPage</ADMLayout>;
 };
 
-export default NewsDetailPage;
+export default AddsDetailPage;

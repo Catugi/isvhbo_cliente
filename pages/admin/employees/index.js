@@ -34,7 +34,7 @@ export default function EmployeesPage({ employees }) {
             variant='contained'
             LinkComponent={Link}
             noLinkStyle
-            href='/admin/employees/new'
+            href='/admin/employees/add'
           >
             Adicionar Novo funcionário
           </Button>

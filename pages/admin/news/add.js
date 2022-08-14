@@ -1,21 +1,24 @@
 import ADMLayout from '@/components/admin/ADMLayout';
 import Title from '@/components/admin/Title';
 import Link from '@/components/Link';
-import { Box, Button, Container, Grid, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  TextField,
+} from '@mui/material';
 import { grey, red } from '@mui/material/colors';
 import AuthContext from 'context/AuthContext';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
-const NewProprietyPage = () => {
-  const router = useRouter();
+const AddNews = () => {
   const { error, user } = useContext(AuthContext);
-
-
+  const router = useRouter();
   const [values, setValues] = useState({
-    name: '', location: '',
-    products: '', proprietor_name: '',
-    starting_date: ''
+    title: '', body: '',
+    usefulLinks: ''
   })
 
 
@@ -24,16 +27,15 @@ const NewProprietyPage = () => {
   };
   const handleClearForm = (e) => {
     setValues({
-      name: '', location: '',
-      products: '', proprietor_name: '',
-      starting_date: ''
+      title: '', body: '',
+      usefulLinks: '', address: '',
+      joinedAt: '', bday: ''
     });
   }
   const handleInputChange = (e) => {
     const { name, value } = e.target
     setValues({ ...values, [name]: value })
   }
-
   return (
     <ADMLayout>
       <Container component='main' maxWidth='md' sx={{ minHeight: 520, mb: 10 }}>
@@ -44,12 +46,8 @@ const NewProprietyPage = () => {
             alignItems: 'center',
           }}
         >
-          <Title>Cadastrando uma nova Propriedade ...</Title>
-          <Button
-            variant='contained'
-            LinkComponent={Link}
-            href='/admin/proprieties'
-          >
+          <Title>Cadastrando uma nova notícia ...</Title>
+          <Button variant='contained' LinkComponent={Link} href='/admin/news'>
             Ver Todas
           </Button>
         </Box>
@@ -67,72 +65,48 @@ const NewProprietyPage = () => {
             onSubmit={handleSubmit}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12}>
-                Nome da Propriedade
+              <Grid item xs={12} >
+                Título
                 <TextField
-                  autoComplete='given-name'
-                  name='name'
+                  name='title'
                   required
                   fullWidth
-                  id='name'
-                  placeholder='Nome da Propriedade'
-
-                  value={values.name}
+                  id='title'
+                  placeholder='Título da notícia'
+                  autoFocus
+                  value={values.title}
+                  onChange={handleInputChange}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                Corpo da notícia
+                <TextField
+                  multiline
+                  rows={5}
+                  required
+                  fullWidth
+                  id='body'
+                  placeholder='Descrição do evento'
+                  name='body'
+                  value={values.body}
                   onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12} >
-                Localização da Propriedade
+                Ligações úteis
                 <TextField
                   required
                   fullWidth
-                  id='location'
-                  placeholder='Localização da Propriedade'
-                  name='location'
-                  value={values.location}
+                  id='usefulLinks'
+                  placeholder='Links úteis'
+                  name='usefulLinks'
+                  value={values.usefulLinks}
                   onChange={handleInputChange}
                 />
               </Grid>
-              <Grid item xs={12}>
-                Produtos destacados da empresa
-                <TextField
 
-                  required
-                  fullWidth
-                  id='products'
-                  placeholder='Produtos destacados separados por ","'
-                  name='products'
-                  value={values.products}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                Proprietário
-                <TextField
-                  required
-                  fullWidth
-                  id='proprietor_name'
-                  placeholder='Nome de proprietário'
-                  name='proprietor_name'
-                  value={values.proprietor_name}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                Data do início de funcionamento
-                <TextField
-                  type={'date'}
-                  required
-                  fullWidth
-                  name='starting_date'
+              <Grid item sx={12} sm={6}>
 
-                  id='starting_date'
-
-                  value={values.starting_date}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
                 <Button
                   type='submit'
                   fullWidth
@@ -141,7 +115,6 @@ const NewProprietyPage = () => {
                 >
                   Salvar
                 </Button>
-
               </Grid>
               <Grid item sx={12} sm={6}>
 
@@ -164,4 +137,4 @@ const NewProprietyPage = () => {
     </ADMLayout>
   );
 };
-export default NewProprietyPage;
+export default AddNews;
