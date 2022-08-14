@@ -20,7 +20,7 @@ export default function MostRelevantDiseases({ deseases }) {
           <Button
             variant='contained'
             LinkComponent={Link}
-            href='/admin/deseases/new'
+            href='/admin/diseases/new'
           >
             Detectada uma nova
           </Button>
@@ -35,6 +35,7 @@ export default function MostRelevantDiseases({ deseases }) {
             display: 'flex',
             flexWrap: 'wrap',
             gap: 2,
+            mt: 1,
           }}
         >
           {deseases.data.map((desease) => (
@@ -53,7 +54,7 @@ export default function MostRelevantDiseases({ deseases }) {
 }
 
 export async function getStaticProps() {
-  const res = await fetch(`${API_URL}/deseases?_sort=date:ASC&_limit=3`);
+  const res = await fetch(`${API_URL}/deseases?_sort=date:ASC`);
   const deseases = await res.json();
   console.log(deseases.data);
 

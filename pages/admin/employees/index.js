@@ -12,7 +12,7 @@ import {
   TableRow,
   TableCell,
 } from '@mui/material';
-import { red, grey } from '@mui/material/colors';
+import { red, grey, cyan } from '@mui/material/colors';
 export default function EmployeesPage({ employees }) {
   return (
     <ADMLayout>
@@ -75,7 +75,14 @@ export default function EmployeesPage({ employees }) {
                   <TableCell>{employee.attributes.telephone}</TableCell>
 
                   <TableCell>
-                    <Button LinkComponent={Link} href='#' variant='contained'>
+                    <Button LinkComponent={Link} href='#' variant='contained' sx={{
+                      bgcolor: cyan[800],
+                      color: grey[100],
+                      ':hover': {
+                        bgcolor: cyan[900],
+                        color: grey[200],
+                      }
+                    }}>
                       Detalhes
                     </Button>
                   </TableCell>
@@ -83,8 +90,12 @@ export default function EmployeesPage({ employees }) {
                     <Button
                       variant='contained'
                       sx={{
-                        bgcolor: red[900],
-                        color: grey[900],
+                        bgcolor: red[800],
+                        color: grey[100],
+                        ':hover': {
+                          bgcolor: red[900],
+                          color: grey[200],
+                        }
                       }}
                     >
                       Apagar

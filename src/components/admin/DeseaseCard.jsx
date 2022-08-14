@@ -15,7 +15,7 @@ const DeseaseCard = ({
       sx={{
         width: 400,
         height: 200,
-        bgcolor: grey[500],
+        bgcolor: grey[200],
         display: 'flex',
         gap: 2,
         p: 1,

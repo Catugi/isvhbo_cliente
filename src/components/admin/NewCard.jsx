@@ -38,7 +38,7 @@ const NewCard = ({ new_ }) => {
         </Box>
         <Box
           sx={{
-            width: 600,
+            width: 700,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -80,15 +80,6 @@ const NewCard = ({ new_ }) => {
             justifyContent: 'flex-end',
           }}
         >
-          <Button
-            sx={{
-              color: grey[900],
-              bgcolor: red[700],
-              width: 180,
-            }}
-          >
-            Apagar
-          </Button>
           <Button
             sx={{
               bgcolor: blue[700],

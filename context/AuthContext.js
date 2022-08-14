@@ -56,7 +56,8 @@ export const AuthProvider = ({ children }) => {
     if (res.ok) {
       setUser(data.user);
       setError(null);
-      router.push('/');
+      router.pathname.includes('admin') ?
+        router.push('/admin') : router.push('/');
       return;
     } else {
       setError({ name: data.name, message: 'Nome de usuário ou senha errado' });

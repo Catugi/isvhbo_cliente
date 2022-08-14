@@ -100,9 +100,9 @@ const Header = () => {
               href='/admin'
               noLinkStyle
               sx={{
-                bgcolor: grey[800],
-                color: grey[100],
-                ':hover': { bgcolor: grey[900], color: grey[200] },
+                bgcolor: grey[900],
+                color: grey[200],
+                ':hover': { bgcolor: grey[800], color: grey[100] },
               }}
             >
               Gerenciar
@@ -128,9 +128,9 @@ const Header = () => {
                 href='/'
                 onClick={() => logout()}
                 sx={{
-                  bgcolor: red[800],
-                  color: grey[100],
-                  ':hover': { bgcolor: red[900], color: grey[200] },
+                  bgcolor: red[900],
+                  color: grey[200],
+                  ':hover': { bgcolor: red[800], color: grey[100] },
                 }}
               >
                 <LogoutOutlined />
@@ -143,9 +143,9 @@ const Header = () => {
                 LinkComponent={Link}
                 href='/auth/login'
                 sx={{
-                  bgcolor: grey[800],
-                  color: grey[100],
-                  ':hover': { bgcolor: grey[900], color: grey[200] },
+                  bgcolor: grey[900],
+                  color: grey[200],
+                  ':hover': { bgcolor: grey[800], color: grey[100] },
                 }}
               >
                 <LoginOutlined />

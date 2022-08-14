@@ -45,7 +45,7 @@ const EventCard = ({
         </Box>
         <Box
           sx={{
-            width: 800,
+            width: 700,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -86,15 +86,6 @@ const EventCard = ({
             justifyContent: 'flex-end',
           }}
         >
-          <Button
-            sx={{
-              color: grey[900],
-              bgcolor: red[700],
-              width: 180,
-            }}
-          >
-            Apagar
-          </Button>
           <Button
             sx={{
               bgcolor: blue[700],
