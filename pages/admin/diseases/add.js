@@ -15,7 +15,7 @@ import { parseCookies } from 'helpers/index';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
-export default function AddDesease({ token }) {
+export default function AddDesease() {
   const { user, error } = useContext(AuthContext)
   const [errorMessage, setErrorMessage] = useState("");;
   const router = useRouter();
@@ -40,18 +40,26 @@ export default function AddDesease({ token }) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ detectedLocal, description, treatmentType, proprieties }),
+      body: JSON.stringify({
+        data: {
+          detectedLocal: detectedLocal,
+          description: description,
+          treatmentType: treatmentType,
+          proprieties: proprieties
+        }
+      }),
     })
 
     if (!res.ok) {
       if (res.status === 403 || res.status === 401) {
         setErrorMessage('Não está autorizado')
         return
+      } else {
+        alert('Alguma coisa não funcionou')
       }
     } else {
-      router.push(`/admin/deseases`)
+      router.push(`/admin/diseases`)
     }
   }
   // ===================================================================
@@ -150,9 +158,7 @@ export default function AddDesease({ token }) {
                   Limpar formulário
                 </Button>
               </Grid>
-
             </Grid>
-
           </Box>
         </Box>
       </Container>
@@ -161,12 +167,12 @@ export default function AddDesease({ token }) {
 };
 
 
-export async function getServerSideProps({ req }) {
+/* export async function getServerSideProps({ req }) {
   const { token } = parseCookies(req)
-
+  console.log(token);
   return {
     props: {
       token,
     },
   }
-}
+} */

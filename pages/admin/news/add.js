@@ -1,6 +1,7 @@
 import ADMLayout from '@/components/admin/ADMLayout';
 import Title from '@/components/admin/Title';
 import Link from '@/components/Link';
+import { API_URL } from '@/config';
 import {
   Box,
   Button,
@@ -10,31 +11,50 @@ import {
 } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
 import AuthContext from 'context/AuthContext';
+import { parseCookies } from 'helpers';
 import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
-const AddNews = () => {
+export default function AddNews({ token }) {
+
   const { error, user } = useContext(AuthContext);
   const router = useRouter();
-  const [values, setValues] = useState({
+  const [modifiedData, setModifiedData] = useState({
     title: '', body: '',
     usefulLinks: ''
-  })
+  });
 
+  const [errorMessage, ErrorMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const res = await fetch(`${API_URL}/news`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ data: modifiedData }),
+    })
+
+    if (!res.ok) {
+      if (res.status === 403 || res.status === 401) {
+        setErrorMessage('Não está autorizado')
+        return
+      } else (`${res.status}`)
+    } else {
+      router.push(`/admin/news`)
+    }
   };
   const handleClearForm = (e) => {
-    setValues({
+    setModifiedData({
       title: '', body: '',
-      usefulLinks: '', address: '',
-      joinedAt: '', bday: ''
+      usefulLinks: ''
     });
   }
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    setValues({ ...values, [name]: value })
+    setModifiedData({ ...modifiedData, [name]: value })
   }
   return (
     <ADMLayout>
@@ -74,7 +94,7 @@ const AddNews = () => {
                   id='title'
                   placeholder='Título da notícia'
                   autoFocus
-                  value={values.title}
+                  value={modifiedData.title}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -88,7 +108,7 @@ const AddNews = () => {
                   id='body'
                   placeholder='Descrição do evento'
                   name='body'
-                  value={values.body}
+                  value={modifiedData.body}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -100,7 +120,7 @@ const AddNews = () => {
                   id='usefulLinks'
                   placeholder='Links úteis'
                   name='usefulLinks'
-                  value={values.usefulLinks}
+                  value={modifiedData.usefulLinks}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -137,4 +157,12 @@ const AddNews = () => {
     </ADMLayout>
   );
 };
-export default AddNews;
+
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req)
+  console.log(token);
+  return {
+    props: { token },
+  };
+}

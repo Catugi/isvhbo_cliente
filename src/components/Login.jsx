@@ -23,7 +23,7 @@ export default function Login({ isAdminRoute }) {
   const { login, error, user } = useContext(AuthContext);
   useEffect(() => {
     error;
-  }, []);
+  }, [error]);
   user && router.push('/');
   const handleSubmit = (e) => {
     e.preventDefault();

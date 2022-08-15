@@ -33,7 +33,7 @@ export default function RegisterPage() {
 
   useEffect(() => {
     error;
-  }, []);
+  }, [error]);
 
   user && router.push('/');
 
@@ -90,8 +90,8 @@ export default function RegisterPage() {
                   id='firstName'
                   label='Primeiro nome'
                   autoFocus
-                  /*  value={firstName}
-                  onChange={(e) => setFirtName(e.target.value)} */
+                /*  value={firstName}
+                onChange={(e) => setFirtName(e.target.value)} */
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -102,8 +102,8 @@ export default function RegisterPage() {
                   label='Último nome'
                   name='lastName'
                   autoComplete='family-name'
-                  /* value={lastName}
-                  onChange={(e) => setLastName(e.target.value)} */
+                /* value={lastName}
+                onChange={(e) => setLastName(e.target.value)} */
                 />
               </Grid>
               <Grid item xs={12} sm={6}>

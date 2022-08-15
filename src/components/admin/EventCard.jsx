@@ -12,9 +12,7 @@ const EventCard = ({
   title,
   description,
   usefulLinks,
-  start_date,
   start_time,
-  end_date,
   end_time,
 }) => {
   return (
@@ -71,10 +69,10 @@ const EventCard = ({
             }}
           >
             <Typography variant='body1'>
-              Começa em {start_date} as {start_time}
+              Data e hora de início {start_time}
             </Typography>
             <Typography variant='body1'>
-              Termina em {end_date} as {end_time}
+              Data e hora de término {end_time}
             </Typography>
           </Box>
         </Box>

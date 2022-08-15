@@ -4,15 +4,17 @@ import Title from '@/components/admin/Title';
 import Link from '@/components/Link';
 import { API_URL } from '@/config';
 import ProprirteCard from '@/components/admin/PropriertCard';
+import { parseCookies } from 'helpers';
+import { OneK } from '@mui/icons-material';
 
-const Propriedades = ({ proprieties }) => {
+const Propriedades = ({ result }) => {
   return <ADMLayout>
     <Container>
       <Box
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
-          alignItems: 'center',
+          alignItems: 'center', gap: 2
         }}
       >
         <Title>Propriedades da província que estão cadastradas</Title>
@@ -24,7 +26,7 @@ const Propriedades = ({ proprieties }) => {
           Cadastrar Nova
         </Button>
       </Box>
-      {proprieties.data.length === 0 && (
+      {result.data && result.data.length === 0 && (
         <Typography variant='h3' align='center'>
           Sem propriedades até ao momento
         </Typography>
@@ -37,9 +39,8 @@ const Propriedades = ({ proprieties }) => {
           mt: 1,
         }}
       >
-        {proprieties.data.map((proprierty) => (
-          <ProprirteCard
-            id={proprierty.id}
+        {result.data && result.data.map((proprierty) => (
+          <ProprirteCard key={proprierty.id}
             name={proprierty.attributes.name}
             location={proprierty.attributes.location}
             proprietor_name={proprierty.attributes.proprietor_name}
@@ -54,13 +55,24 @@ const Propriedades = ({ proprieties }) => {
 
 export default Propriedades;
 
-export async function getStaticProps() {
-  const res = await fetch(`${API_URL}/proprieties`);
-  const proprieties = await res.json();
-  console.log(proprieties.data);
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  const res = await fetch(`${API_URL}/proprieties`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  const result = await res.json();
+  /* if (res.ok) {
+    console.log(result.data);
+  } else {
+    console.log(result.error.status)
+  } */
 
   return {
-    props: { proprieties },
-    revalidate: 1,
+    props: { result },
+    // revalidate: 1,
   };
 }

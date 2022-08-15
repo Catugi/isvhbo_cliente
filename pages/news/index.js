@@ -5,13 +5,13 @@ import { Box, Button, Card, Container, Typography } from '@mui/material';
 import { API_URL } from '../../config';
 import Link from '@/components/Link';
 
-export default function AddsPage({ news }) {
+export default function AddsPage({ result }) {
   return (
     <Layout>
       <Typography textTransform={'uppercase'} variant='h3' align='center'>
         Últimas Notícias
       </Typography>
-      {news.data.length === 0 && (
+      {result.data.length === 0 && (
         <Typography variant='h2' align='center'>
           Sem novas notícias nos útlimos 5 dias
         </Typography>
@@ -23,7 +23,7 @@ export default function AddsPage({ news }) {
             flex: 4,
           }}
         >
-          {news.data.map((singlenew) => (
+          {result.data.map((singlenew) => (
             <NewCard
               key={singlenew.id}
               title={singlenew.attributes.title}
@@ -60,12 +60,12 @@ export default function AddsPage({ news }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await fetch(`${API_URL}/news`);
-  const news = await res.json();
-  console.log(news.data);
+  const result = await res.json();
+  // console.log(result.data);
   return {
-    props: { news },
-    revalidate: 1,
+    props: { result },
+    // revalidate: 1,
   };
 }

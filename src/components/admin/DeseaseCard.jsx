@@ -6,6 +6,7 @@ import Link from '../Link';
 
 const DeseaseCard = ({
   /*  image,  */
+  linkTo,
   detectedLocal,
   description,
   treatmentType,
@@ -20,6 +21,7 @@ const DeseaseCard = ({
         gap: 2,
         p: 1,
       }}
+      elevation={0}
     >
       <Box>
         <Image src={img.src} width={200} height={200} alt={'Sem Imagem'} />
@@ -39,8 +41,8 @@ const DeseaseCard = ({
         <Typography variant='body1' align='justify'>
           {treatmentType}
         </Typography>
-        <Button variant='outilined' LinkComponent={Link} href='#'>
-          Detalhes
+        <Button variant='outilined' LinkComponent={Link} href={linkTo}>
+          Editar
         </Button>
       </Box>
     </Card>

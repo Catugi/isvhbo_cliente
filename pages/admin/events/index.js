@@ -8,8 +8,9 @@ import { Box } from '@mui/material';
 import { Button } from '@mui/material';
 import { Container } from '@mui/material';
 import { Typography } from '@mui/material';
+import { parseCookies } from 'helpers';
 
-export default function EventsPage({ events }) {
+export default function EventsPage({ result }) {
   return (
     <ADMLayout>
       <Box sx={mainBox}>
@@ -31,21 +32,19 @@ export default function EventsPage({ events }) {
             Adicionar novo
           </Button>
         </Box>
-        {events.data.length === 0 && (
+        {result.data && result.data && result.data.length === 0 && (
           <Typography variant='h3' align='center'>
             Sem eventos para mostrar
           </Typography>
         )}
 
         <Container sx={eventsBox}>
-          {events.data.map((evt) => (
+          {result.data && result.data.map((evt) => (
             <EventCard
               key={evt.id}
               title={evt.attributes.title}
               description={evt.attributes.description}
-              start_date={evt.attributes.start_date}
               start_time={evt.attributes.start_time}
-              end_date={evt.attributes.end_date}
               end_time={evt.attributes.end_time}
               usefulLinks={evt.attributes.usefulLinks}
             />
@@ -56,13 +55,23 @@ export default function EventsPage({ events }) {
   );
 }
 
-export async function getStaticProps() {
-  const res = await fetch(`${API_URL}/events?_sort=date:ASC&_limit=3`);
-  const events = await res.json();
-  console.log(events.data);
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req)
+  const res = await fetch(`${API_URL}/events`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  });
 
+  const result = await res.json();
+  if (res.ok) {
+    console.log(result.data);
+  } else {
+    console.log(result.error.status)
+  }
   return {
-    props: { events },
-    revalidate: 1,
+    props: { result },
   };
 }

@@ -1,6 +1,7 @@
 import ADMLayout from '@/components/admin/ADMLayout';
 import Title from '@/components/admin/Title';
 import Link from '@/components/Link';
+import { API_URL } from '@/config';
 import {
   Box,
   Button,
@@ -10,36 +11,55 @@ import {
 } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
 import AuthContext from 'context/AuthContext';
+import { parseCookies } from 'helpers';
+import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
-const AddEmployeePage = () => {
-  // const router = useRouter();
-
-  const [values, setValues] = useState({
+export default function AddEmployeePage({ token }) {
+  const router = useRouter();
+  const [modifiedData, setModifiedData] = useState({
     fname: '', sname: '',
     lname: '', address: '',
     phone: '', bday: ''
   })
-  const { error, user } = useContext(AuthContext);
-  const hasEmptyFields = Object.values(values).some(
+  /* const { error, user } = useContext(AuthContext);
+  const hasEmptyFields = Object.values(modifiedData).some(
     (element) => element === ''
   )
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+ */
   const handleClearForm = (e) => {
-    setValues({
+    setModifiedData({
       fname: '', sname: '',
       lname: '', address: '',
       joinedAt: '', bday: ''
     });
+
   }
-  const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setValues({ ...values, [name]: value })
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await fetch(`${API_URL}/employees`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ data: modifiedData }),
+    })
+
+    if (!res.ok) {
+      if (res.status === 403 || res.status === 401) {
+        setErrorMessage('Não está autorizado')
+        return
+      }
+    } else {
+      router.push(`/admin/employees`)
+    }
   }
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setModifiedData({ ...modifiedData, [name]: value });
+  }
   return (
     <ADMLayout>
       <Container component='main' maxWidth='md' sx={{ minHeight: 520, mb: 10 }}>
@@ -83,7 +103,7 @@ const AddEmployeePage = () => {
                   id='fname'
                   placeholder='Primeiro nome'
                   autoFocus
-                  value={values.fname}
+                  value={modifiedData.fname}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -97,7 +117,7 @@ const AddEmployeePage = () => {
                   placeholder='Último nome'
                   name='lname'
                   autoComplete='family-name'
-                  value={values.lname}
+                  value={modifiedData.lname}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -111,7 +131,7 @@ const AddEmployeePage = () => {
                   name='address'
                   placeholder='Endereço'
                   autoComplete='address'
-                  value={values.address}
+                  value={modifiedData.address}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -123,7 +143,7 @@ const AddEmployeePage = () => {
                   id='phone'
                   placeholder='Telefone'
                   name='phone'
-                  value={values.phone}
+                  value={modifiedData.phone}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -136,7 +156,7 @@ const AddEmployeePage = () => {
                   name='bday'
                   placeholder='Data de nascimento'
                   id='bday'
-                  value={values.bday}
+                  value={modifiedData.bday}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -148,7 +168,7 @@ const AddEmployeePage = () => {
                   fullWidth
                   id='joinedAt'
                   name='joinedAt'
-                  value={values.joinedAt}
+                  value={modifiedData.joinedAt}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -186,5 +206,15 @@ const AddEmployeePage = () => {
       </Container>
     </ADMLayout>
   );
-};
-export default AddEmployeePage;
+}
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req)
+  // console.log(token);
+
+  return {
+    props: {
+      token,
+    },
+  }
+}

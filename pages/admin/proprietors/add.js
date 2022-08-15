@@ -1,6 +1,7 @@
 import ADMLayout from '@/components/admin/ADMLayout';
 import Title from '@/components/admin/Title';
 import Link from '@/components/Link';
+import { API_URL } from '@/config';
 import {
   Box,
   Button,
@@ -10,26 +11,50 @@ import {
 } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
 import AuthContext from 'context/AuthContext';
+import { parseCookies } from 'helpers';
+import { useRouter } from 'next/router';
 import { useContext, useState } from 'react';
 
-const AddProprietorPage = () => {
-  // const router = useRouter();
+export default function AddProprietorPage({ token }) {
+  const router = useRouter();
 
-  const [values, setValues] = useState({
+  const [errorMessage, setErrorMessage] = useState("");
+  const [modifiedData, setModifiedData] = useState({
     fname: '', sname: '',
     lname: '', address: '',
     phone: '', bday: ''
   })
   const { error, user } = useContext(AuthContext);
-  const hasEmptyFields = Object.values(values).some(
+  const hasEmptyFields = Object.values(modifiedData).some(
     (element) => element === ''
   )
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const res = await fetch(`${API_URL}/proprietors`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        data: modifiedData
+      }),
+    })
+
+    if (!res.ok) {
+      if (res.status === 403 || res.status === 401) {
+        setErrorMessage('Não está autorizado')
+        return
+      } else {
+        alert(`Alguma coisa não funcionou ${res.status}`)
+      }
+    } else {
+      router.push(`/admin/proprietors`)
+    }
   };
   const handleClearForm = (e) => {
-    setValues({
+    setModifiedData({
       fname: '', sname: '',
       lname: '', address: '',
       phone: '', bday: ''
@@ -37,7 +62,7 @@ const AddProprietorPage = () => {
   }
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    setValues({ ...values, [name]: value })
+    setModifiedData({ ...modifiedData, [name]: value })
   }
 
   return (
@@ -83,7 +108,7 @@ const AddProprietorPage = () => {
                   id='fname'
                   placeholder='Primeiro nome'
                   autoFocus
-                  value={values.fname}
+                  value={modifiedData.fname}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -95,7 +120,7 @@ const AddProprietorPage = () => {
                   id='sname'
                   name='sname'
                   autoComplete='family-name'
-                  value={values.sname}
+                  value={modifiedData.sname}
                   onChange={handleInputChange}
                   placeholder={'Segundo Nome'}
                 />
@@ -109,7 +134,7 @@ const AddProprietorPage = () => {
                   placeholder='Último nome'
                   name='lname'
                   autoComplete='family-name'
-                  value={values.lname}
+                  value={modifiedData.lname}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -123,7 +148,7 @@ const AddProprietorPage = () => {
                   name='address'
                   placeholder='Endereço'
                   autoComplete='address'
-                  value={values.address}
+                  value={modifiedData.address}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -135,7 +160,7 @@ const AddProprietorPage = () => {
                   id='phone'
                   placeholder='Telefone'
                   name='phone'
-                  value={values.phone}
+                  value={modifiedData.phone}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -148,7 +173,7 @@ const AddProprietorPage = () => {
                   name='bday'
                   placeholder='Data de nascimento'
                   id='bday'
-                  value={values.bday}
+                  value={modifiedData.bday}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -186,4 +211,12 @@ const AddProprietorPage = () => {
     </ADMLayout>
   );
 };
-export default AddProprietorPage;
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req)
+  console.log(token)
+  return {
+    props: {
+      token,
+    },
+  }
+}

@@ -2,7 +2,7 @@ import Layout from '@/components/Layout';
 import { API_URL } from '../../config';
 import { Box } from '@mui/material';
 
-export default function DeaseasePage({ deseases }) {
+export default function DeaseasePage({ result }) {
   return (
     <Layout>
       <Box
@@ -14,13 +14,13 @@ export default function DeaseasePage({ deseases }) {
     </Layout>
   );
 }
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await fetch(`${API_URL}/deseases`);
-  const deseases = await res.json();
-  console.log(deseases.data);
+  const result = await res.json();
+  // console.log(result.data);
 
   return {
-    props: { deseases },
-    revalidate: 1,
+    props: { result },
+    // revalidate: 1,
   };
 }

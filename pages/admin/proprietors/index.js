@@ -13,7 +13,8 @@ import {
   TableCell,
 } from '@mui/material';
 import { red, grey } from '@mui/material/colors';
-export default function OwnersPage({ proprietors }) {
+import { parseCookies } from 'helpers';
+export default function OwnersPage({ result }) {
   return (
     <ADMLayout>
       <Box
@@ -59,7 +60,7 @@ export default function OwnersPage({ proprietors }) {
             </TableHead>
 
             <TableBody>
-              {proprietors.data.map((employee) => (
+              {result.data && result.data.map((employee) => (
                 <TableRow key={employee.id}>
                   <TableCell>{employee.attributes.fname}</TableCell>
                   <TableCell>{employee.attributes.sname} </TableCell>
@@ -94,13 +95,23 @@ export default function OwnersPage({ proprietors }) {
   );
 }
 
-export async function getStaticProps() {
-  const res = await fetch(`${API_URL}/proprietors?_sort=date:ASC&_limit=3`);
-  const proprietors = await res.json();
-  console.log(proprietors.data);
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  const res = await fetch(`${API_URL}/proprietors`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  });
 
+  const result = await res.json();
+  /* if (res.ok) {
+    console.log(result.data);
+  } else {
+    console.log(result.error.status)
+  } */
   return {
-    props: { proprietors },
-    revalidate: 1,
+    props: { result },
   };
 }

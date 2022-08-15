@@ -13,7 +13,8 @@ import {
   TableCell,
 } from '@mui/material';
 import { red, grey, cyan } from '@mui/material/colors';
-export default function EmployeesPage({ employees }) {
+import { parseCookies } from 'helpers/index';
+export default function EmployeesPage({ result }) {
   return (
     <ADMLayout>
       <Box
@@ -45,11 +46,13 @@ export default function EmployeesPage({ employees }) {
             flexDirection: 'column',
           }}
         >
-          {employees.data.length === 0 && (
+          {result.data && result.data.length === 0 && (
             <Typography variant='h4' align='center'>
               Não há funcionários cadastrados ainda
             </Typography>
           )}
+
+
 
           <Table size='small'>
             <TableHead>
@@ -64,7 +67,7 @@ export default function EmployeesPage({ employees }) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {employees.data.map((employee) => (
+              {result.data && result.data.map((employee) => (
                 <TableRow key={employee.id}>
                   <TableCell>{employee.attributes.fname}</TableCell>
                   <TableCell>{employee.attributes.lname} </TableCell>
@@ -111,13 +114,26 @@ export default function EmployeesPage({ employees }) {
   );
 }
 
-export async function getStaticProps() {
-  const res = await fetch(`${API_URL}/employees?_sort=date:ASC&_limit=3`);
-  const employees = await res.json();
-  console.log(employees.data);
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req);
+  // console.log(token)
+  const res = await fetch(`${API_URL}/employees`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  const result = await res.json();
+  if (res.ok) {
+    // console.log(result.data);
+
+  } else {
+    // console.log(result.error.status)
+  }
 
   return {
-    props: { employees },
-    revalidate: 1,
+    props: { result },
+    // revalidate: 1,
   };
 }

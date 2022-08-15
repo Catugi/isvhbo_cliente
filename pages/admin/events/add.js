@@ -1,41 +1,68 @@
 import ADMLayout from '@/components/admin/ADMLayout';
 import Title from '@/components/admin/Title';
 import Link from '@/components/Link';
+import { API_URL } from '@/config';
 import {
   Box,
   Button,
   Container,
   Grid,
   TextField,
+  Typography,
 } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
-import AuthContext from 'context/AuthContext';
+// import AuthContext from 'context/AuthContext';
+import { parseCookies } from 'helpers';
 import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
+import { /* useContext, */ useState } from 'react';
 
-const AddEventPage = () => {
-  const { error, user } = useContext(AuthContext);
+export default function AddEventPage({ token }) {
   const router = useRouter();
-  const [values, setValues] = useState({
+  const [modifiedData, setModifiedData] = useState({
     title: '', description: '',
     usefulLinks: '', start_date: '',
-    start_time: '', end_date: '', end_time: ''
-  })
+    end_date: ''
+  });
 
+  const [errorMessage, setErrorMessage] = useState("")
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  /* const { error, user } = useContext(AuthContext);
+  const hasEmptyFields = Object.values(modifiedData).some(
+    (element) => element === ''
+  )
+ */
   const handleClearForm = (e) => {
-    setValues({
+    setModifiedData({
       title: '', description: '',
-      lname: '', address: '',
-      joinedAt: '', bday: ''
+      usefulLinks: '', start_date: '',
+      end_date: '',
     });
+
   }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const res = await fetch(`${API_URL}/events`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ data: modifiedData }),
+    })
+
+    if (!res.ok) {
+      if (res.status === 403 || res.status === 401) {
+        setErrorMessage('Não está autorizado')
+        return
+      } else (`${res.status}`)
+    } else {
+      router.push(`/admin/events`)
+    }
+  }
+
   const handleInputChange = (e) => {
-    const { name, value } = e.target
-    setValues({ ...values, [name]: value })
+    const { name, value } = e.target;
+    setModifiedData({ ...modifiedData, [name]: value });
   }
   return (
     <ADMLayout>
@@ -59,6 +86,10 @@ const AddEventPage = () => {
             alignItems: 'center',
           }}
         >
+          {errorMessage !== '' && <Typography sx={{
+            bgcolor: red[900],
+            color: grey[20],
+          }}></Typography>}
           <Box
             component='form'
             noValidate
@@ -75,7 +106,7 @@ const AddEventPage = () => {
                   id='title'
                   placeholder='Título do evento'
                   autoFocus
-                  value={values.title}
+                  value={modifiedData.title}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -89,7 +120,7 @@ const AddEventPage = () => {
                   id='description'
                   placeholder='Descrição do evento'
                   name='description'
-                  value={values.description}
+                  value={modifiedData.description}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -101,35 +132,11 @@ const AddEventPage = () => {
                   id='usefulLinks'
                   placeholder='Links úteis'
                   name='usefulLinks'
-                  value={values.usefulLinks}
+                  value={modifiedData.usefulLinks}
                   onChange={handleInputChange}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                Data de início
-                <TextField
-                  type={'date'}
-                  required
-                  fullWidth
-                  id='start_date'
 
-                  name='start_date'
-                  value={values.start_date}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                Data de término
-                <TextField
-                  type={'date'}
-                  required
-                  fullWidth
-                  name='end_date'
-                  id='end_date'
-                  value={values.end_date}
-                  onChange={handleInputChange}
-                />
-              </Grid>
               <Grid item xs={12} sm={6}>
                 Hora de início
                 <TextField
@@ -138,7 +145,7 @@ const AddEventPage = () => {
                   fullWidth
                   name='start_time'
                   id='start_time'
-                  value={values.start_time}
+                  value={modifiedData.start_time}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -150,7 +157,7 @@ const AddEventPage = () => {
                   fullWidth
                   name='end_time'
                   id='end_time'
-                  value={values.end_time}
+                  value={modifiedData.end_time}
                   onChange={handleInputChange}
                 />
               </Grid>
@@ -186,4 +193,12 @@ const AddEventPage = () => {
     </ADMLayout>
   );
 };
-export default AddEventPage;
+
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req)
+  console.log(token)
+  return {
+    props: { token },
+  };
+}

@@ -5,7 +5,7 @@ import { Box, Button, Container, Typography } from '@mui/material';
 import DeseaseCard from '@/components/admin/DeseaseCard';
 import Link from '@/components/Link';
 
-export default function MostRelevantDiseases({ deseases }) {
+export default function MostRelevantDiseases({ result }) {
   return (
     <ADMLayout>
       <Container>
@@ -25,7 +25,7 @@ export default function MostRelevantDiseases({ deseases }) {
             Detectada uma nova
           </Button>
         </Box>
-        {deseases.data.length === 0 && (
+        {result.data && result.data.length === 0 && (
           <Typography variant='h3' align='center'>
             Sem doenças cadastradas
           </Typography>
@@ -38,9 +38,9 @@ export default function MostRelevantDiseases({ deseases }) {
             mt: 1,
           }}
         >
-          {deseases.data.map((desease) => (
+          {result.data && result.data.map((desease) => (
             <DeseaseCard
-              id={desease.id}
+              key={desease.id}
               // image={desease.attributes.image}
               detectedLocal={desease.attributes.detectedLocal}
               description={desease.attributes.description}
@@ -53,13 +53,13 @@ export default function MostRelevantDiseases({ deseases }) {
   );
 }
 
-export async function getStaticProps() {
-  const res = await fetch(`${API_URL}/deseases?_sort=date:ASC`);
-  const deseases = await res.json();
-  console.log(deseases.data);
+export async function getServerSideProps() {
+  const res = await fetch(`${API_URL}/deseases`);
+  const result = await res.json();
+  // console.log(result.data);
 
   return {
-    props: { deseases },
-    revalidate: 1,
+    props: { result },
+    // revalidate: 1,
   };
 }

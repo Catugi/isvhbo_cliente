@@ -28,7 +28,7 @@ const NewCard = ({ title, publisher, description, link, date }) => {
         }}
       >
         <Box flex={1 / 4}>
-          <Image width={170} height={120} src={img.src} />
+          <Image width={170} height={120} src={img.src} alt='Sem imagem' />
         </Box>
         <Box flex={2 / 4}>
           <Typography variant='body1' align='center'>

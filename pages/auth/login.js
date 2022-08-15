@@ -26,7 +26,7 @@ export default function LoginPage() {
   const { login, error, user } = useContext(AuthContext);
   useEffect(() => {
     error;
-  }, []);
+  }, [error]);
   user && router.push('/');
   const handleSubmit = (e) => {
     e.preventDefault();

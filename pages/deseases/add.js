@@ -1,33 +1,81 @@
+import ADMLayout from '@/components/admin/ADMLayout';
+import Title from '@/components/admin/Title';
 import Layout from '@/components/Layout';
-import { AccountBox } from '@mui/icons-material';
+import Link from '@/components/Link';
+import { API_URL, NEXT_URL } from '@/config';
 import {
-  Avatar,
   Box,
   Button,
   Container,
   Grid,
   TextField,
-  Typography,
 } from '@mui/material';
+import { grey, red } from '@mui/material/colors';
 import AuthContext from 'context/AuthContext';
+import { parseCookies } from 'helpers/index';
 import { useRouter } from 'next/router';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
-const AddDesease = () => {
+export default function AddDesease({ token }) {
+  const { user, error } = useContext(AuthContext)
+  const [errorMessage, setErrorMessage] = useState("");;
   const router = useRouter();
-  const [detectedLocal, setdetectedLocal] = useState('');
-  const [description, setDescription] = useState('');
-  const [treatmentType, setTreatmentType] = useState('');
-  const [image, setImage] = useState('');
-  const [proprieties, setProprieties] = useState([]);
-  const { register, error, user } = useContext(AuthContext);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-  };
+  const [detectedLocal, setDetectedLocal] = useState("");
+  const [description, setDescription] = useState("");
+  const [treatmentType, setTreatmentType] = useState("");
+  const [proprieties, setProprieties] = useState([])
+  // ===================================================================
+
+
+  const handleClearForm = () => {
+    setDetectedLocal('');
+    setDescription('');
+    setTreatmentType('');
+    setProprieties([]);
+  }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    const res = await fetch(`${API_URL}/deseases`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ detectedLocal, description, treatmentType, proprieties }),
+    })
+
+    if (!res.ok) {
+      if (res.status === 403 || res.status === 401) {
+        setErrorMessage('Não está autorizado')
+        return
+      } else {
+        alert('Alguma coisa não funcionou')
+      }
+    } else {
+      router.push(`/admin/deseases`)
+    }
+  }
+  // ===================================================================
   return (
     <Layout>
       <Container component='main' maxWidth='md' sx={{ minHeight: 520, mb: 10 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          <Title>Cadastrando uma doença comunicada</Title>
+          <Button
+            variant='contained'
+            LinkComponent={Link}
+            href='/admin/diseases'
+          >
+            Ver Todas
+          </Button>
+        </Box>
         <Box
           sx={{
             display: 'flex',
@@ -35,103 +83,93 @@ const AddDesease = () => {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: grey[900] }}>
-            <AccountBox />
-          </Avatar>
-          <Typography component='h1' variant='h5'>
-            Criar uma conta
-          </Typography>
-
-          <Box component='form' noValidate sx={{ mt: 3 }}>
+          <Box
+            component='form'
+            noValidate
+            sx={{ mt: 3 }}
+            onSubmit={handleSubmit}
+          >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} >
+                Local detectado
                 <TextField
-                  autoComplete='given-name'
-                  name='firstName'
+                  name='detectedLocal'
                   required
                   fullWidth
-                  id='firstName'
-                  label='Primeiro nome'
+                  id='detectedLocal'
+                  placeholder='Local detectado'
                   autoFocus
-                /*  value={firstName}
-                onChange={(e) => setFirtName(e.target.value)} */
+                  value={detectedLocal}
+                  onChange={(e) => setDetectedLocal(e.target.value)}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12} >
+                Descrição
+                <TextField
+                  multiline
+                  rows={5}
+                  required
+                  fullWidth
+                  id='description'
+                  placeholder='Descrição'
+                  name='description'
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                Tipo de tratamento
                 <TextField
                   required
                   fullWidth
-                  id='lastName'
-                  label='Último nome'
-                  name='lastName'
-                  autoComplete='family-name'
-                /* value={lastName}
-                onChange={(e) => setLastName(e.target.value)} */
+                  id='treatmentType'
+                  placeholder='Tipo de tratamento'
+                  name='treatmentType'
+                  value={treatmentType}
+                  onChange={(e) => setTreatmentType(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  type={'email'}
-                  required
+                <Button
+                  type='submit'
                   fullWidth
-                  id='email'
-                  label='Enderço de Email'
-                  name='email'
-                  autoComplete='email'
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+                  variant='contained'
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  Salvar
+                </Button>
               </Grid>
               <Grid item xs={12} sm={6}>
-                <TextField
-                  required
+                <Button
                   fullWidth
-                  id='username'
-                  label='Nome de usuário'
-                  name='username'
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
+                  variant='contained'
+                  sx={{
+                    mt: 3, mb: 2, bgcolor: red[800], color: grey[100], ":hover": {
+                      bgcolor: red[800], color: grey[100],
+                    }
+                  }} onClick={handleClearForm}
+                >
+                  Limpar formulário
+                </Button>
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  name='password'
-                  label='Senha'
-                  type='password'
-                  id='password'
-                  autoComplete='new-password'
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  name='passwordConfirm'
-                  label='Confirme sua senha'
-                  type='password'
-                  id='passwordConfirm'
-                  autoComplete='new-password'
-                  value={passwordConfirm}
-                  onChange={(e) => setPasswordConfirm(e.target.value)}
-                />
-              </Grid>
+
             </Grid>
-            <Button
-              type='submit'
-              fullWidth
-              variant='contained'
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Cadastrar-se
-            </Button>
+
           </Box>
         </Box>
       </Container>
     </Layout>
   );
 };
-export default AddDesease;
+
+
+export async function getServerSideProps({ req }) {
+  const { token } = parseCookies(req)
+  // console.log(token);
+
+  return {
+    props: {
+      token,
+    },
+  }
+}
