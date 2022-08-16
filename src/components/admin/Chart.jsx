@@ -1,5 +1,5 @@
-import * as React from "react";
-import { useTheme } from "@mui/material/styles";
+import * as React from 'react';
+import { useTheme } from '@mui/material/styles';
 import {
   LineChart,
   Line,
@@ -7,8 +7,8 @@ import {
   YAxis,
   Label,
   ResponsiveContainer,
-} from "recharts";
-import Title from "./Title";
+} from 'recharts';
+import Title from './Title';
 
 // Generate Sales Data
 
@@ -29,7 +29,7 @@ export default function Chart({ data }) {
           }}
         >
           <XAxis
-            dataKey="time"
+            dataKey='time'
             stroke={theme.palette.text.secondary}
             style={theme.typography.body2}
           />
@@ -39,20 +39,20 @@ export default function Chart({ data }) {
           >
             <Label
               angle={270}
-              position="left"
+              position='left'
               style={{
-                textAnchor: "middle",
+                textAnchor: 'middle',
                 fill: theme.palette.text.primary,
                 ...theme.typography.body1,
               }}
             >
-              Vendas (AO)
+              Atendimentos
             </Label>
           </YAxis>
           <Line
             isAnimationActive={false}
-            type="monotone"
-            dataKey="amount"
+            type='monotone'
+            dataKey='amount'
             stroke={theme.palette.primary.main}
             dot={false}
           />

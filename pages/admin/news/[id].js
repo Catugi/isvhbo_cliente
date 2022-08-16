@@ -7,11 +7,11 @@ export default function NewDetailPage() {
 export async function getServerSideProps({ query: { id } }) {
   const res = await fetch(`${API_URL}/news?id=${id}`)
   const result = await res.json()
-  if (res.ok) {
+  /* if (res.ok) {
     console.log(result.data);
   } else {
     console.log(result.error.status)
-  }
+  } */
 
   return {
     props: {

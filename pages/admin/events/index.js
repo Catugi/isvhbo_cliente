@@ -41,6 +41,7 @@ export default function EventsPage({ result }) {
         <Container sx={eventsBox}>
           {result.data && result.data.map((evt) => (
             <EventCard
+              id={evt.id}
               key={evt.id}
               title={evt.attributes.title}
               description={evt.attributes.description}
@@ -66,11 +67,11 @@ export async function getServerSideProps({ req }) {
   });
 
   const result = await res.json();
-  if (res.ok) {
+  /* if (res.ok) {
     console.log(result.data);
   } else {
     console.log(result.error.status)
-  }
+  } */
   return {
     props: { result },
   };

@@ -1,6 +1,7 @@
 import Layout from '@/components/Layout';
 import Link from '@/components/Link';
 import MessageCard from '@/components/MessageCard';
+import { API_URL } from '@/config';
 import { mainBox } from '@/utils/styles/userDashboardStyles';
 import { Box, Button, Container, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
@@ -84,11 +85,44 @@ export default function UserDashboardPage() {
 
 export async function getServerSideProps({ req }) {
   const { token } = parseCookies(req)
-  const messagesResult = null;
-  const proprietiesResult = null;
+  const mRes = await fetch(`${API_URL}/messages?populate=*`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  });
+  const proprietyRes = await fetch(`${API_URL}/proprieties?populate=*`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
 
-  console.log(token)
+  const usersRes = await fetch(`${API_URL}/users?populate=*`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  });
+  const proprietorRes = await fetch(`${API_URL}/proprietors?populate=*`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+
+  const messagesResult = await mRes.json();
+
+  const proprietiesResult = await proprietyRes.json();
+  const proprietorsResult = await proprietorRes.json();
+  const userData = await usersRes.json();
+
+  console.log({ message: messagesResult.data, proprieties: proprietiesResult.data, proprietors: proprietorsResult.data, users: userData })
   return {
-    props: { token },
+    props: { token, messagesResult, proprietiesResult, proprietorsResult },
   };
 }

@@ -5,15 +5,10 @@ export const eventsBox = {
   gap: 1,
   display: 'flex',
   flexWrap: 'wrap',
-  justifyContent: 'space-around',
+  justifyContent: 'center',
   alignItems: 'flex-start',
 };
 
-export const mainBox = {
-  /* backgroundImage: `url(${secondBgImage.src})`,
-  backgroundRepeat: "no-repeat",
-  backgroundSize: "cover", */
-};
 
 export const singleEventComponent = {
   display: 'flex',

@@ -8,29 +8,34 @@ import { API_URL } from '../../config/';
 export default function EventsPage({ result }) {
   return (
     <Layout>
-      <Box sx={mainBox}>
-        <Typography textTransform={'uppercase'} variant='h4' align='center'>
-          Últimos Eventos
-        </Typography>
-        {result.data && result.data.length === 0 && (
-          <Typography variant='h3' align='center'>
-            Sem eventos para mostrar
-          </Typography>
-        )}
+      <Box sx={{ display: 'flex', gap: 1 }}>
+        <Box sx={{ flex: 2 }}>
 
-        <Container sx={eventsBox}>
-          {result.data && result.data.map((evt) => (
-            <EventCard
-              key={evt.id}
-              title={evt.title}
-              publisher={'Fernando'}
-              description={'Evento a decorres sob o lema'}
-              initialDate={'11/07/2022'}
-              finalDate={'11/07/2022'}
-              date={'11/07/2022'}
-            />
-          ))}
-        </Container>
+          <Typography textTransform={'uppercase'} variant='h4' align='center'>
+            Últimos Eventos
+          </Typography>
+          {result.data && result.data.length === 0 && (
+            <Typography variant='h3' align='center'>
+              Sem eventos para mostrar
+            </Typography>
+          )}
+
+          <Container sx={eventsBox}>
+            {result.data && result.data.map((evt) => (
+              <EventCard
+                id={evt.id}
+                key={evt.id}
+                title={evt.attributes.title}
+                description={evt.attributes.description}
+                initialDate={evt.attributes.start_time}
+                finalDate={evt.attributes.end_time}
+              />
+            ))}
+          </Container>
+        </Box>
+        <Box sx={{ pt: 5, flex: 1 / 2 }}>
+          <Typography variant='h5'>Outras informações</Typography>
+        </Box>
       </Box>
     </Layout>
   );
@@ -38,7 +43,7 @@ export default function EventsPage({ result }) {
 
 export async function getServerSideProps({ req }) {
   const { token } = parseCookies(req)
-  const res = await fetch(`${API_URL}/events`, {
+  const res = await fetch(`${API_URL}/events?populate=*`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -47,11 +52,11 @@ export async function getServerSideProps({ req }) {
   });
 
   const result = await res.json();
-  if (res.ok) {
+  /* if (res.ok) {
     console.log(result.data);
   } else {
     console.log(result.error.status)
-  }
+  } */
   return {
     props: { result },
   };

@@ -1,11 +1,11 @@
-import { flexSize, secondaryBox } from "@/utils/styles/footerStyles";
-import { Box, Card, Typography } from "@mui/material";
-import Copyright from "./Copyright";
+import { flexSize, secondaryBox } from '@/utils/styles/footerStyles';
+import { Box, Card, Typography } from '@mui/material';
+import Copyright from './Copyright';
 
 const Footer = () => {
   return (
     <Box>
-      <Box sx={secondaryBox}>
+      {/* <Box sx={secondaryBox}>
         <Card sx={flexSize}>
           <Typography variant="body2" color="text.secondary" align="center">
             Informações do Rodapé nº 1
@@ -29,7 +29,7 @@ const Footer = () => {
       </Box>
       <Typography variant="body2" color="text.secondary" align="center">
         Informações do Rodapé
-      </Typography>
+      </Typography> */}
       <Copyright />
     </Box>
   );

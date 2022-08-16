@@ -9,6 +9,7 @@ import Image from 'next/image';
 import img from 'public/assets/the-devils-bridge.jpg';
 import Link from '../Link';
 const EventCard = ({
+  id,
   title,
   description,
   usefulLinks,
@@ -59,7 +60,9 @@ const EventCard = ({
             }}
           >
             <Typography variant='body1'>{description}</Typography>
-            <Button LinkComponent={Link} href={usefulLinks}></Button>
+            <Button LinkComponent={Link} href={usefulLinks}>
+              Ligações úteis
+            </Button>
           </Box>
           <Box
             sx={{
@@ -85,11 +88,13 @@ const EventCard = ({
           }}
         >
           <Button
+            LinkComponent={Link}
             sx={{
               bgcolor: blue[700],
               width: 180,
               color: grey[900],
             }}
+            href={`/admin/events/${id}`}
           >
             Detalhes
           </Button>

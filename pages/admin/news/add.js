@@ -161,7 +161,7 @@ export default function AddNews({ token }) {
 
 export async function getServerSideProps({ req }) {
   const { token } = parseCookies(req)
-  console.log(token);
+  // console.log(token);
   return {
     props: { token },
   };

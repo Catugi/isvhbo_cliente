@@ -43,11 +43,7 @@ const NewCard = ({ id, title, description, publisher, date }) => {
             // justifyContent: 'flex-end',
           }}
         >
-          <Button
-            variant='contained'
-            LinkComponent={Link}
-            href={'/news/edit/${id}'}
-          >
+          <Button variant='contained' LinkComponent={Link} href={`/news/${id}`}>
             Detalhes
           </Button>
         </Box>
