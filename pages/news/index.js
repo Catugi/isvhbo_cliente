@@ -25,6 +25,7 @@ export default function AddsPage({ result }) {
         >
           {result.data.map((singlenew) => (
             <NewCard
+              id={singlenew.id}
               key={singlenew.id}
               title={singlenew.attributes.title}
               description={singlenew.attributes.body}

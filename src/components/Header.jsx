@@ -19,7 +19,7 @@ import { LoginOutlined, LogoutOutlined } from '@mui/icons-material';
 /* ========================================================== */
 
 const MyButton = styled(Button)({
-  color: grey[900],
+  color: grey[100],
   //border: 'darkblue solid 1px',
   borderRadius: 15,
 });
@@ -68,10 +68,10 @@ const Header = () => {
           <MyButton LinkComponent={Link} href='#'>
             Outros
           </MyButton>
-          <MyButton LinkComponent={Link} href='/deseases'>
+          {/*<MyButton LinkComponent={Link} href='/deseases'>
             Doenças
           </MyButton>
-          {/*  <MyButton LinkComponent={Link} href='/contacts'>
+            <MyButton LinkComponent={Link} href='/contacts'>
             Contactos
           </MyButton> */}
         </Box>

@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import { red, grey, cyan } from '@mui/material/colors';
 import { parseCookies } from 'helpers/index';
-export default function EmployeesPage({ result }) {
+export default function EmployeesPage({ result, handleDelete }) {
   return (
     <ADMLayout>
       <Box
@@ -99,7 +99,7 @@ export default function EmployeesPage({ result }) {
                           bgcolor: red[900],
                           color: grey[200],
                         }
-                      }}
+                      }} onClick={(e) => handleDelete}
                     >
                       Apagar
                     </Button>

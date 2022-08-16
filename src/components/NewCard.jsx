@@ -15,7 +15,7 @@ const style = {
   flexDirection: 'column',
 };
 
-const NewCard = ({ title, publisher, description, link, date }) => {
+const NewCard = ({ id, title, description, publisher, date }) => {
   return (
     <Card sx={style}>
       <Typography variant='h5' align='center'>
@@ -28,7 +28,7 @@ const NewCard = ({ title, publisher, description, link, date }) => {
         }}
       >
         <Box flex={1 / 4}>
-          <Image width={170} height={120} src={img.src} alt='Sem imagem' />
+          <Image width={170} height={120} src={img.src} alt='Sem Imagem' />
         </Box>
         <Box flex={2 / 4}>
           <Typography variant='body1' align='center'>
@@ -43,7 +43,11 @@ const NewCard = ({ title, publisher, description, link, date }) => {
             // justifyContent: 'flex-end',
           }}
         >
-          <Button variant='contained' LinkComponent={Link} href={link}>
+          <Button
+            variant='contained'
+            LinkComponent={Link}
+            href={'/news/edit/${id}'}
+          >
             Detalhes
           </Button>
         </Box>

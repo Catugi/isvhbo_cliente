@@ -6,9 +6,11 @@ import { grey } from '@mui/material/colors';
 import { blue } from '@mui/material/colors';
 import { red } from '@mui/material/colors';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import img from 'public/assets/the-devils-bridge.jpg';
 import Link from '../Link';
 const AddCard = ({ new_ }) => {
+  const router = useRouter();
   return (
     <Card
       sx={{
@@ -80,15 +82,7 @@ const AddCard = ({ new_ }) => {
             justifyContent: 'flex-end',
           }}
         >
-          <Button
-            sx={{
-              bgcolor: blue[700],
-              width: 180,
-              color: grey[900],
-            }}
-          >
-            Detalhes
-          </Button>
+          <Link href={`/news/${new_.id}`}>Detalhes</Link>
         </Box>
       </Box>
     </Card>

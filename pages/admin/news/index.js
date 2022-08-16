@@ -40,7 +40,7 @@ export default function NewsAddPage({ result }) {
 
         <Container sx={eventsBox}>
           {result.data.map((item) => (
-            <NewCard key={item.id} new_={item} />
+            <NewCard key={item.id} id={item.id} new_={item} />
           ))}
         </Container>
       </Box>
@@ -48,13 +48,12 @@ export default function NewsAddPage({ result }) {
   );
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const res = await fetch(`${API_URL}/news?_sort=date:ASC&_limit=5`);
   const result = await res.json();
   // console.log(result.data);
 
   return {
     props: { result },
-    revalidate: 1,
   };
 }
