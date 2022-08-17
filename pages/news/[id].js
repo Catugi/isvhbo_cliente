@@ -4,7 +4,7 @@ import { API_URL } from "@/config";
 import { Box, Button, Typography } from "@mui/material";
 import { parseCookies } from "helpers";
 import Image from "next/image";
-import cover from 'public/assets/Background.jpg';
+import cover from 'public/images/Background.jpg';
 
 export default function AddsDetailsPage({ result }) {
   return <Layout>

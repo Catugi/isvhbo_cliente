@@ -1,6 +1,6 @@
 import Layout from '@/components/Layout';
 import { API_URL } from '../../config';
-import { Box } from '@mui/material';
+import { Box, Button, Link } from '@mui/material';
 
 export default function DeaseasePage({ result }) {
   return (
@@ -10,7 +10,9 @@ export default function DeaseasePage({ result }) {
           display: 'flex',
           flexDirection: 'column',
         }}
-      ></Box>
+      >
+        <Button LinkComponent={Link} href='/dashboard'>Ir para o painel</Button>
+      </Box>
     </Layout>
   );
 }

@@ -20,6 +20,7 @@ export default function AddDesease() {
   const [errorMessage, setErrorMessage] = useState("");;
   const router = useRouter();
 
+  const [name, setName] = useState('')
   const [detectedLocal, setDetectedLocal] = useState("");
   const [description, setDescription] = useState("");
   const [treatmentType, setTreatmentType] = useState("");
@@ -28,6 +29,7 @@ export default function AddDesease() {
 
 
   const handleClearForm = () => {
+    setName('');
     setDetectedLocal('');
     setDescription('');
     setTreatmentType('');
@@ -43,6 +45,7 @@ export default function AddDesease() {
       },
       body: JSON.stringify({
         data: {
+          name: name,
           detectedLocal: detectedLocal,
           description: description,
           treatmentType: treatmentType,
@@ -97,6 +100,18 @@ export default function AddDesease() {
           >
             <Grid container spacing={2}>
               <Grid item xs={12} >
+                Nome da doença
+                <TextField
+                  name='detectedLocal'
+                  required
+                  fullWidth
+                  id='name'
+                  placeholder='Nome da doença'
+                  autoFocus
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                /></Grid>
+              <Grid item xs={12} >
                 Local detectado
                 <TextField
                   name='detectedLocal'
@@ -104,7 +119,6 @@ export default function AddDesease() {
                   fullWidth
                   id='detectedLocal'
                   placeholder='Local detectado'
-                  autoFocus
                   value={detectedLocal}
                   onChange={(e) => setDetectedLocal(e.target.value)}
                 />
@@ -165,14 +179,3 @@ export default function AddDesease() {
     </ADMLayout>
   );
 };
-
-
-/* export async function getServerSideProps({ req }) {
-  const { token } = parseCookies(req)
-  console.log(token);
-  return {
-    props: {
-      token,
-    },
-  }
-} */

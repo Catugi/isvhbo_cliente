@@ -4,6 +4,7 @@ const MessageCard = ({ title, body, status }) => {
   return (
     <Card
       sx={{
+        p: 1,
         width: '80%',
         height: 200,
         display: 'flex',

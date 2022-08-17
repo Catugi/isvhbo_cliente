@@ -40,7 +40,9 @@ export default function MostRelevantDiseases({ result }) {
         >
           {result.data && result.data.map((desease) => (
             <DeseaseCard
+              id={desease.id}
               key={desease.id}
+              name={desease.attributes.name}
               // image={desease.attributes.image}
               detectedLocal={desease.attributes.detectedLocal}
               description={desease.attributes.description}

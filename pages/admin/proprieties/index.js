@@ -5,9 +5,31 @@ import Link from '@/components/Link';
 import { API_URL } from '@/config';
 import ProprirteCard from '@/components/admin/PropriertCard';
 import { parseCookies } from 'helpers';
-import { OneK } from '@mui/icons-material';
 
-const Propriedades = ({ result }) => {
+export default function Propriedades({ result, toke }) {
+
+  /* const router = useRouter();
+
+  const handleDelete = async (id) => {
+    if (confirm('Você tem certeza?')) {
+      const res = await fetch(`${API_URL}/proprietors/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      console.log(token)
+      const data = await res.json()
+
+      if (!res.ok) {
+        alert(data.error.message)
+      } else {
+        router.reload()
+      }
+    }
+  }
+ */
+
   return <ADMLayout>
     <Container>
       <Box
@@ -53,7 +75,6 @@ const Propriedades = ({ result }) => {
   </ADMLayout>;
 };
 
-export default Propriedades;
 
 export async function getServerSideProps({ req }) {
   const { token } = parseCookies(req);
@@ -72,7 +93,7 @@ export async function getServerSideProps({ req }) {
   } */
 
   return {
-    props: { result },
+    props: { result, token },
     // revalidate: 1,
   };
 }

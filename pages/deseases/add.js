@@ -1,8 +1,7 @@
-import ADMLayout from '@/components/admin/ADMLayout';
 import Title from '@/components/admin/Title';
 import Layout from '@/components/Layout';
 import Link from '@/components/Link';
-import { API_URL, NEXT_URL } from '@/config';
+import { API_URL } from '@/config';
 import {
   Box,
   Button,
@@ -11,16 +10,14 @@ import {
   TextField,
 } from '@mui/material';
 import { grey, red } from '@mui/material/colors';
-import AuthContext from 'context/AuthContext';
-import { parseCookies } from 'helpers/index';
 import { useRouter } from 'next/router';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 
-export default function AddDesease({ token }) {
-  const { user, error } = useContext(AuthContext)
-  const [errorMessage, setErrorMessage] = useState("");;
+export default function AddDesease() {
+
   const router = useRouter();
 
+  const [name, setName] = useState('')
   const [detectedLocal, setDetectedLocal] = useState("");
   const [description, setDescription] = useState("");
   const [treatmentType, setTreatmentType] = useState("");
@@ -29,6 +26,7 @@ export default function AddDesease({ token }) {
 
 
   const handleClearForm = () => {
+    setName('');
     setDetectedLocal('');
     setDescription('');
     setTreatmentType('');
@@ -40,9 +38,17 @@ export default function AddDesease({ token }) {
     const res = await fetch(`${API_URL}/deseases`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ detectedLocal, description, treatmentType, proprieties }),
+      body: JSON.stringify({
+        data: {
+          name: name,
+          detectedLocal: detectedLocal,
+          description: description,
+          treatmentType: treatmentType,
+          proprieties: proprieties
+        }
+      }),
     })
 
     if (!res.ok) {
@@ -53,7 +59,7 @@ export default function AddDesease({ token }) {
         alert('Alguma coisa não funcionou')
       }
     } else {
-      router.push(`/admin/deseases`)
+      router.push(`/dashboard`)
     }
   }
   // ===================================================================
@@ -71,7 +77,7 @@ export default function AddDesease({ token }) {
           <Button
             variant='contained'
             LinkComponent={Link}
-            href='/admin/diseases'
+            href='/deseases'
           >
             Ver Todas
           </Button>
@@ -91,6 +97,18 @@ export default function AddDesease({ token }) {
           >
             <Grid container spacing={2}>
               <Grid item xs={12} >
+                Nome da doença
+                <TextField
+                  name='detectedLocal'
+                  required
+                  fullWidth
+                  id='name'
+                  placeholder='Nome da doença'
+                  autoFocus
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                /></Grid>
+              <Grid item xs={12} >
                 Local detectado
                 <TextField
                   name='detectedLocal'
@@ -98,7 +116,6 @@ export default function AddDesease({ token }) {
                   fullWidth
                   id='detectedLocal'
                   placeholder='Local detectado'
-                  autoFocus
                   value={detectedLocal}
                   onChange={(e) => setDetectedLocal(e.target.value)}
                 />
@@ -152,9 +169,7 @@ export default function AddDesease({ token }) {
                   Limpar formulário
                 </Button>
               </Grid>
-
             </Grid>
-
           </Box>
         </Box>
       </Container>
@@ -163,13 +178,12 @@ export default function AddDesease({ token }) {
 };
 
 
-export async function getServerSideProps({ req }) {
+/* export async function getServerSideProps({ req }) {
   const { token } = parseCookies(req)
-  // console.log(token);
-
+  console.log(token);
   return {
     props: {
       token,
     },
   }
-}
+} */

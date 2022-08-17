@@ -4,7 +4,7 @@ import { grey } from "@mui/material/colors"
 import AuthContext from "context/AuthContext"
 import Image from "next/image"
 import { useContext } from "react"
-import avatar from 'public/assets/bg.jpg';
+import avatar from 'public/images/bg.jpg';
 import Link from "@/components/Link"
 import { API_URL } from "@/config"
 import { parseCookies } from "helpers"

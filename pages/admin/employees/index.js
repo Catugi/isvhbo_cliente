@@ -14,7 +14,28 @@ import {
 } from '@mui/material';
 import { red, grey, cyan } from '@mui/material/colors';
 import { parseCookies } from 'helpers/index';
-export default function EmployeesPage({ result, handleDelete }) {
+import { useRouter } from 'next/router';
+export default function EmployeesPage({ result, token }) {
+  const router = useRouter();
+
+  const handleDelete = async (id) => {
+    if (confirm('Você tem certeza?')) {
+      const res = await fetch(`${API_URL}/employees/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      console.log(token)
+      const data = await res.json()
+
+      if (!res.ok) {
+        alert(data.error.message)
+      } else {
+        router.reload()
+      }
+    }
+  }
   return (
     <ADMLayout>
       <Box
@@ -78,7 +99,7 @@ export default function EmployeesPage({ result, handleDelete }) {
                   <TableCell>{employee.attributes.telephone}</TableCell>
 
                   <TableCell>
-                    <Button LinkComponent={Link} href='#' variant='contained' sx={{
+                    <Button LinkComponent={Link} href={`/employees/${employee.id}`} variant='contained' sx={{
                       bgcolor: cyan[800],
                       color: grey[100],
                       ':hover': {
@@ -99,7 +120,7 @@ export default function EmployeesPage({ result, handleDelete }) {
                           bgcolor: red[900],
                           color: grey[200],
                         }
-                      }} onClick={(e) => handleDelete}
+                      }} onClick={(e) => handleDelete(employee.id)}
                     >
                       Apagar
                     </Button>
@@ -110,13 +131,13 @@ export default function EmployeesPage({ result, handleDelete }) {
           </Table>
         </Box>
       </Box>
-    </ADMLayout>
+    </ADMLayout >
   );
 }
 
 export async function getServerSideProps({ req }) {
   const { token } = parseCookies(req);
-  // console.log(token)
+  console.log(token)
   const res = await fetch(`${API_URL}/employees`, {
     method: 'GET',
     headers: {
@@ -133,7 +154,7 @@ export async function getServerSideProps({ req }) {
   }
 
   return {
-    props: { result },
+    props: { result, token },
     // revalidate: 1,
   };
 }

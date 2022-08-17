@@ -6,7 +6,7 @@ import { grey } from '@mui/material/colors';
 import { blue } from '@mui/material/colors';
 import { red } from '@mui/material/colors';
 import Image from 'next/image';
-import img from 'public/assets/the-devils-bridge.jpg';
+import img from 'public/images/the-devils-bridge.jpg';
 import Link from '../Link';
 const EventCard = ({
   id,

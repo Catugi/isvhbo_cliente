@@ -61,11 +61,11 @@ export async function getServerSideProps({ params: { id }, req }) {
     }
   })
   const result = await res.json()
-  if (res.ok) {
+  /* if (res.ok) {
     console.log(result.data.attributes.image.data);
   } else {
     console.log(result.error.status)
-  }
+  } */
   return {
     props: {
       result,

@@ -7,7 +7,7 @@ import { blue } from '@mui/material/colors';
 import { red } from '@mui/material/colors';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import img from 'public/assets/the-devils-bridge.jpg';
+import img from 'public/images/the-devils-bridge.jpg';
 import Link from '../Link';
 const AddCard = ({ new_ }) => {
   const router = useRouter();

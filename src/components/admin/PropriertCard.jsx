@@ -1,7 +1,7 @@
 import { Box, Button, Card, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import Image from 'next/image';
-import logo from 'public/assets/Porco.jpg';
+import logo from 'public/images/Porco.jpg';
 import Link from '../Link';
 const PropriertCard = ({
   name,

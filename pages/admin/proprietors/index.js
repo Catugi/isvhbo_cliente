@@ -14,7 +14,30 @@ import {
 } from '@mui/material';
 import { red, grey } from '@mui/material/colors';
 import { parseCookies } from 'helpers';
-export default function OwnersPage({ result }) {
+import { useRouter } from 'next/router';
+export default function OwnersPage({ result, token }) {
+  const router = useRouter();
+  console.log(token)
+  const handleDelete = async (id) => {
+    if (confirm('Você tem certeza?')) {
+      const res = await fetch(`${API_URL}/proprietors/${id}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      console.log(token)
+      const data = await res.json()
+
+      if (!res.ok) {
+        alert(data.error.message)
+      } else {
+        router.reload()
+      }
+    }
+  }
+
+
   return (
     <ADMLayout>
       <Box
@@ -60,14 +83,14 @@ export default function OwnersPage({ result }) {
             </TableHead>
 
             <TableBody>
-              {result.data && result.data.map((employee) => (
-                <TableRow key={employee.id}>
-                  <TableCell>{employee.attributes.fname}</TableCell>
-                  <TableCell>{employee.attributes.sname} </TableCell>
-                  <TableCell>{employee.attributes.lname} </TableCell>
-                  <TableCell>{employee.attributes.address}</TableCell>
-                  <TableCell>{employee.attributes.bday}</TableCell>
-                  <TableCell>{employee.attributes.phone}</TableCell>
+              {result.data && result.data.map((proprietor) => (
+                <TableRow key={proprietor.id}>
+                  <TableCell>{proprietor.attributes.fname}</TableCell>
+                  <TableCell>{proprietor.attributes.sname} </TableCell>
+                  <TableCell>{proprietor.attributes.lname} </TableCell>
+                  <TableCell>{proprietor.attributes.address}</TableCell>
+                  <TableCell>{proprietor.attributes.bday}</TableCell>
+                  <TableCell>{proprietor.attributes.phone}</TableCell>
 
                   <TableCell>
                     <Button LinkComponent={Link} href='#' variant='contained'>
@@ -80,7 +103,7 @@ export default function OwnersPage({ result }) {
                       sx={{
                         bgcolor: red[900],
                         color: grey[900],
-                      }}
+                      }} onClick={() => handleDelete(proprietor.id)}
                     >
                       Apagar
                     </Button>
@@ -97,6 +120,7 @@ export default function OwnersPage({ result }) {
 
 export async function getServerSideProps({ req }) {
   const { token } = parseCookies(req);
+  console.log(token)
   const res = await fetch(`${API_URL}/proprietors`, {
     method: 'GET',
     headers: {
@@ -112,6 +136,6 @@ export async function getServerSideProps({ req }) {
     console.log(result.error.status)
   } */
   return {
-    props: { result },
+    props: { result, token },
   };
 }

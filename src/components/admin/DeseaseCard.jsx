@@ -1,15 +1,16 @@
 import { Box, Button, Card, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { blue, cyan, grey } from '@mui/material/colors';
 import Image from 'next/image';
-import img from 'public/assets/the-devils-bridge.jpg';
+import img from 'public/images/the-devils-bridge.jpg';
 import Link from '../Link';
 
 const DeseaseCard = ({
-  /*  image,  */
+  /*  image,  */ name,
   linkTo,
   detectedLocal,
   description,
   treatmentType,
+  id,
 }) => {
   return (
     <Card
@@ -32,18 +33,42 @@ const DeseaseCard = ({
           flexDirection: 'column',
         }}
       >
+        <Typography variant='h6'>Nome da doença {name} </Typography>
         <Typography variant='h6' align='left'>
           Local detectado: {detectedLocal}
         </Typography>
-        <Typography variant='body1' align='justify'>
-          {description}
-        </Typography>
-        <Typography variant='body1' align='justify'>
+        <Box sx={{ maxHeight: 50, pr: 2 }}>
+          <Typography variant='body1' align='justify' noWrap>
+            {description}
+          </Typography>
+        </Box>
+        <Typography variant='h6' align='justify'>
           {treatmentType}
         </Typography>
-        <Button variant='outilined' LinkComponent={Link} href={linkTo}>
-          Editar
-        </Button>
+        <Box sx={{ display: 'flex', gap: 2 }}>
+          <Button
+            LinkComponent={Link}
+            href={`/admin/diseases/${id}`}
+            sx={{
+              bgcolor: blue[900],
+              color: grey[100],
+              ':hover': { bgcolor: blue[800], color: grey[200] },
+            }}
+          >
+            Detalhes
+          </Button>{' '}
+          <Button
+            LinkComponent={Link}
+            href={`/admin/diseases/edit/${id}`}
+            sx={{
+              bgcolor: cyan[900],
+              color: grey[100],
+              ':hover': { bgcolor: cyan[800], color: grey[200] },
+            }}
+          >
+            Editar
+          </Button>
+        </Box>
       </Box>
     </Card>
   );

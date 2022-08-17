@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Link from './Link';
 import { AppBar, Avatar, Box, Button, TextField } from '@mui/material';
 import { useRouter } from 'next/router';
-import avatar from 'public/assets/bg.jpg';
+import avatar from 'public/images/bg.jpg';
 import Image from 'next/image';
 
 import {

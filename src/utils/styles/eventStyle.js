@@ -1,5 +1,5 @@
 import { grey } from '@mui/material/colors';
-import secondBgImage from 'public/assets/the-devils-bridge.jpg';
+import secondBgImage from 'public/images/the-devils-bridge.jpg';
 
 export const eventsBox = {
   gap: 1,

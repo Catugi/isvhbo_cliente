@@ -3,7 +3,7 @@ import { grey } from '@mui/material/colors';
 import Image from 'next/image';
 import Link from './Link';
 
-import img from 'public/assets/Background.jpg';
+import img from 'public/images/Background.jpg';
 
 const style = {
   width: '90%',
